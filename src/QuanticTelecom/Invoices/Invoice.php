@@ -1,6 +1,7 @@
 <?php namespace QuanticTelecom\Invoices;
 
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
+use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
 
 abstract class Invoice {
@@ -13,6 +14,11 @@ abstract class Invoice {
     public static $vatRate = 0.2;
 
     /**
+     * @var string
+     */
+    private $id;
+
+    /**
      * @var CustomerInterface
      */
     private $customer;
@@ -23,11 +29,30 @@ abstract class Invoice {
     public $items = [];
 
     /**
+     * @param IdGeneratorInterface $idGenerator
      * @param CustomerInterface $customer
      */
-    public function __construct(CustomerInterface $customer)
+    public function __construct(IdGeneratorInterface $idGenerator, CustomerInterface $customer)
     {
+        $this->setId($idGenerator->generateNewId());
+
         $this->customer = $customer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    protected function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
