@@ -1,9 +1,36 @@
 <?php
 
 use Mockery as m;
+use QuanticTelecom\Invoices\ExcludingTaxInvoice;
+use QuanticTelecom\Invoices\IncludingTaxInvoice;
+use QuanticTelecom\Invoices\Contracts\CustomerInterface;
 use QuanticTelecom\Invoices\Invoice;
 
 class InvoiceTest extends PHPUnit_Framework_TestCase {
+
+    /**
+     * @var CustomerInterface
+     */
+    private $customer;
+
+    /**
+     * @var IncludingTaxInvoice
+     */
+    private $includingTaxInvoice;
+    /**
+     * @var ExcludingTaxInvoice
+     */
+    private $excludingTaxInvoice;
+
+    /**
+     * Initialize variables
+     */
+    function __construct()
+    {
+        $this->customer = m::mock('QuanticTelecom\Invoices\Contracts\CustomerInterface');
+        $this->includingTaxInvoice = new IncludingTaxInvoice($this->customer);
+        $this->excludingTaxInvoice = new ExcludingTaxInvoice($this->customer);
+    }
 
     public function tearDown()
     {
@@ -15,8 +42,11 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
      */
     public function it_creates_an_invoice_with_O_total()
     {
-        $invoice = new Invoice($customer = m::mock('QuanticTelecom\Invoices\Contracts\CustomerInterface'));
-        $this->assertEquals(0, $invoice->total());
+        $this->assertEquals(0, $this->includingTaxInvoice->getExcludingTaxTotalPrice());
+        $this->assertEquals(0, $this->includingTaxInvoice->getIncludingTaxTotalPrice());
+
+        $this->assertEquals(0, $this->excludingTaxInvoice->getExcludingTaxTotalPrice());
+        $this->assertEquals(0, $this->excludingTaxInvoice->getIncludingTaxTotalPrice());
     }
 
     /**
@@ -24,10 +54,50 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
      */
     public function it_returns_the_item_after_added_it()
     {
-        $invoice = new Invoice($customer = m::mock('QuanticTelecom\Invoices\Contracts\CustomerInterface'));
+        $this->includingTaxInvoice->addItem($item = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $this->excludingTaxInvoice->addItem($item = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
 
-        $invoice->addItem($item = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $this->assertEquals([$item], $this->includingTaxInvoice->getItems());
+        $this->assertEquals([$item], $this->excludingTaxInvoice->getItems());
+    }
 
-        $this->assertEquals([$item], $invoice->getItems());
+    /**
+     * @test
+     */
+    public function it_returns_the_including_tax_sum_for_including_tax_invoice()
+    {
+        $item1Price = 10.00;
+        $item2Price = 8.00;
+
+        $this->includingTaxInvoice->addItem($item1 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $this->includingTaxInvoice->addItem($item2 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $item1->shouldReceive('getItemIncludingTaxTotalPrice')->andReturn($item1Price);
+        $item2->shouldReceive('getItemIncludingTaxTotalPrice')->andReturn($item2Price);
+
+        $includingTaxTotalPrice = $item1Price + $item2Price;
+        $excludingTaxTotalPrice = round(($item1Price + $item2Price) / (1 + Invoice::$vatRate), 2);
+
+        $this->assertEquals($includingTaxTotalPrice, $this->includingTaxInvoice->getIncludingTaxTotalPrice());
+        $this->assertEquals($excludingTaxTotalPrice, $this->includingTaxInvoice->getExcludingTaxTotalPrice());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_excluding_tax_sum_for_excluding_tax_invoice()
+    {
+        $item1Price = 10.00;
+        $item2Price = 8.00;
+
+        $this->excludingTaxInvoice->addItem($item1 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $this->excludingTaxInvoice->addItem($item2 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $item1->shouldReceive('getItemExcludingTaxTotalPrice')->andReturn($item1Price);
+        $item2->shouldReceive('getItemExcludingTaxTotalPrice')->andReturn($item2Price);
+
+        $includingTaxTotalPrice = round(($item1Price + $item2Price) * (1 + Invoice::$vatRate), 2);
+        $excludingTaxTotalPrice = $item1Price + $item2Price;
+
+        $this->assertEquals($excludingTaxTotalPrice, $this->excludingTaxInvoice->getExcludingTaxTotalPrice());
+        $this->assertEquals($includingTaxTotalPrice, $this->excludingTaxInvoice->getIncludingTaxTotalPrice());
     }
 }

@@ -3,7 +3,14 @@
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
 
-class Invoice {
+abstract class Invoice {
+
+    /**
+     * VAT rate in France
+     *
+     * @var float
+     */
+    public static $vatRate = 0.2;
 
     /**
      * @var CustomerInterface
@@ -11,7 +18,7 @@ class Invoice {
     private $customer;
 
     /**
-     * @var array
+     * @var ItemInterface[]
      */
     public $items = [];
 
@@ -36,18 +43,31 @@ class Invoice {
         return $this;
     }
 
+    /**
+     * Add an item to the invoice
+     *
+     * @return ItemInterface[]
+     */
     public function getItems()
     {
         return $this->items;
     }
 
     /**
-     * Return total
-     *
      * @return float
      */
-    public function total()
+    abstract public function getIncludingTaxTotalPrice();
+
+    /**
+     * @return float
+     */
+    abstract public function getExcludingTaxTotalPrice();
+
+    /**
+     * @return float
+     */
+    public function getVatAmount()
     {
-        return 0;
+        return $this->getIncludingTaxTotalPrice() - $this->getExcludingTaxTotalPrice();
     }
 }
