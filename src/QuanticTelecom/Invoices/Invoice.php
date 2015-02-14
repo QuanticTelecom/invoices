@@ -11,7 +11,7 @@ abstract class Invoice {
     private $customer;
 
     /**
-     * @var array
+     * @var ItemInterface[]
      */
     public $items = [];
 
@@ -36,6 +36,11 @@ abstract class Invoice {
         return $this;
     }
 
+    /**
+     * Add an item to the invoice
+     *
+     * @return ItemInterface[]
+     */
     public function getItems()
     {
         return $this->items;
