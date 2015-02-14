@@ -59,4 +59,36 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals([$item], $this->includingTaxInvoice->getItems());
         $this->assertEquals([$item], $this->excludingTaxInvoice->getItems());
     }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_including_tax_sum_for_including_tax_invoice()
+    {
+        $item1Price = 10.00;
+        $item2Price = 8.00;
+
+        $this->includingTaxInvoice->addItem($item1 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $this->includingTaxInvoice->addItem($item2 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $item1->shouldReceive('getItemIncludingTaxTotalPrice')->andReturn($item1Price);
+        $item2->shouldReceive('getItemIncludingTaxTotalPrice')->andReturn($item2Price);
+
+        $this->assertEquals($item1Price + $item2Price, $this->includingTaxInvoice->getIncludingTaxTotalPrice());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_excluding_tax_sum_for_excluding_tax_invoice()
+    {
+        $item1Price = 10.00;
+        $item2Price = 8.00;
+
+        $this->excludingTaxInvoice->addItem($item1 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $this->excludingTaxInvoice->addItem($item2 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $item1->shouldReceive('getItemExcludingTaxTotalPrice')->andReturn($item1Price);
+        $item2->shouldReceive('getItemExcludingTaxTotalPrice')->andReturn($item2Price);
+
+        $this->assertEquals($item1Price + $item2Price, $this->excludingTaxInvoice->getExcludingTaxTotalPrice());
+    }
 }
