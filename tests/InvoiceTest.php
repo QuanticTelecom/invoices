@@ -27,14 +27,30 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
      */
     function __construct()
     {
+        $this->newId1 = '2015-02-14-0001';
+        $this->newId2 = '2015-02-14-0002';
+
         $this->customer = m::mock('QuanticTelecom\Invoices\Contracts\CustomerInterface');
-        $this->includingTaxInvoice = new IncludingTaxInvoice($this->customer);
-        $this->excludingTaxInvoice = new ExcludingTaxInvoice($this->customer);
+        $this->idGenerator = m::mock('QuanticTelecom\Invoices\Contracts\IdGeneratorInterface');
+        $this->idGenerator->shouldReceive('generateNewId')->times(2)->andReturn($this->newId1, $this->newId2);
+
+        $this->includingTaxInvoice = new IncludingTaxInvoice($this->idGenerator, $this->customer);
+        $this->excludingTaxInvoice = new ExcludingTaxInvoice($this->idGenerator, $this->customer);
     }
 
     public function tearDown()
     {
         m::close();
+    }
+
+    /**
+     * @test
+     */
+    public function it_creates_an_invoice_with_an_id()
+    {
+        $this->assertEquals($this->newId1, $this->includingTaxInvoice->getId());
+
+        $this->assertEquals($this->newId2, $this->excludingTaxInvoice->getId());
     }
 
     /**
