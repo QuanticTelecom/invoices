@@ -3,7 +3,7 @@
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
 
-class Invoice {
+abstract class Invoice {
 
     /**
      * @var CustomerInterface
@@ -42,12 +42,20 @@ class Invoice {
     }
 
     /**
-     * Return total
-     *
      * @return float
      */
-    public function total()
+    abstract public function getIncludingTaxTotalPrice();
+
+    /**
+     * @return float
+     */
+    abstract public function getExcludingTaxTotalPrice();
+
+    /**
+     * @return float
+     */
+    public function getVatAmount()
     {
-        return 0;
+        return $this->getIncludingTaxTotalPrice() - $this->getExcludingTaxTotalPrice();
     }
 }
