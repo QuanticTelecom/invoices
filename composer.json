@@ -1,0 +1,23 @@
+{
+    "name": "quantic-telecom/invoices",
+    "description": "",
+    "authors": [
+        {
+            "name": "Thibaud Dauce",
+            "email": "thibaud@dauce.fr"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "QuanticTelecom\\Invoices\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
