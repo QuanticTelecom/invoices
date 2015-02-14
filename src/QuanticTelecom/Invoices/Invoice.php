@@ -6,6 +6,13 @@ use QuanticTelecom\Invoices\Contracts\ItemInterface;
 abstract class Invoice {
 
     /**
+     * VAT rate in France
+     *
+     * @var float
+     */
+    public static $vatRate = 0.2;
+
+    /**
      * @var CustomerInterface
      */
     private $customer;

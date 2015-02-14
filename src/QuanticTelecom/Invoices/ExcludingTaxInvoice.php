@@ -7,7 +7,7 @@ class ExcludingTaxInvoice extends Invoice {
      */
     public function getIncludingTaxTotalPrice()
     {
-        return 0;
+        return round($this->getExcludingTaxTotalPrice() * (1 + Invoice::$vatRate), 2);
     }
 
     /**
