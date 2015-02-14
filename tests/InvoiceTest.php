@@ -18,4 +18,16 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
         $invoice = new Invoice($customer = m::mock('QuanticTelecom\Invoices\Contracts\CustomerInterface'));
         $this->assertEquals(0, $invoice->total());
     }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_item_after_added_it()
+    {
+        $invoice = new Invoice($customer = m::mock('QuanticTelecom\Invoices\Contracts\CustomerInterface'));
+
+        $invoice->addItem($item = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+
+        $this->assertEquals([$item], $invoice->getItems());
+    }
 }
