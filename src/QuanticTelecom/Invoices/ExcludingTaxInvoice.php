@@ -15,6 +15,13 @@ class ExcludingTaxInvoice extends Invoice {
      */
     public function getExcludingTaxTotalPrice()
     {
-        return 0;
+        $excludingTaxTotalPrice = 0;
+
+        foreach ($this->getItems() as $item)
+        {
+            $excludingTaxTotalPrice += $item->getItemExcludingTaxTotalPrice();
+        }
+
+        return $excludingTaxTotalPrice;
     }
 }

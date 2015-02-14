@@ -7,7 +7,14 @@ class IncludingTaxInvoice extends Invoice {
      */
     public function getIncludingTaxTotalPrice()
     {
-        return 0;
+        $includingTaxTotalPrice = 0;
+
+        foreach ($this->getItems() as $item)
+        {
+            $includingTaxTotalPrice += $item->getItemIncludingTaxTotalPrice();
+        }
+
+        return $includingTaxTotalPrice;
     }
 
     /**
