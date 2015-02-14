@@ -4,6 +4,7 @@ use Mockery as m;
 use QuanticTelecom\Invoices\ExcludingTaxInvoice;
 use QuanticTelecom\Invoices\IncludingTaxInvoice;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
+use QuanticTelecom\Invoices\Invoice;
 
 class InvoiceTest extends PHPUnit_Framework_TestCase {
 
@@ -73,7 +74,11 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
         $item1->shouldReceive('getItemIncludingTaxTotalPrice')->andReturn($item1Price);
         $item2->shouldReceive('getItemIncludingTaxTotalPrice')->andReturn($item2Price);
 
-        $this->assertEquals($item1Price + $item2Price, $this->includingTaxInvoice->getIncludingTaxTotalPrice());
+        $includingTaxTotalPrice = $item1Price + $item2Price;
+        $excludingTaxTotalPrice = round(($item1Price + $item2Price) / (1 + Invoice::$vatRate), 2);
+
+        $this->assertEquals($includingTaxTotalPrice, $this->includingTaxInvoice->getIncludingTaxTotalPrice());
+        $this->assertEquals($excludingTaxTotalPrice, $this->includingTaxInvoice->getExcludingTaxTotalPrice());
     }
 
     /**
@@ -89,6 +94,10 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
         $item1->shouldReceive('getItemExcludingTaxTotalPrice')->andReturn($item1Price);
         $item2->shouldReceive('getItemExcludingTaxTotalPrice')->andReturn($item2Price);
 
-        $this->assertEquals($item1Price + $item2Price, $this->excludingTaxInvoice->getExcludingTaxTotalPrice());
+        $includingTaxTotalPrice = round(($item1Price + $item2Price) * (1 + Invoice::$vatRate), 2);
+        $excludingTaxTotalPrice = $item1Price + $item2Price;
+
+        $this->assertEquals($excludingTaxTotalPrice, $this->excludingTaxInvoice->getExcludingTaxTotalPrice());
+        $this->assertEquals($includingTaxTotalPrice, $this->excludingTaxInvoice->getIncludingTaxTotalPrice());
     }
 }
