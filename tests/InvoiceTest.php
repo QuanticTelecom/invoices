@@ -1,6 +1,9 @@
 <?php
 
+use Carbon\Carbon;
 use Mockery as m;
+use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
+use QuanticTelecom\Invoices\Contracts\ItemInterface;
 use QuanticTelecom\Invoices\ExcludingTaxInvoice;
 use QuanticTelecom\Invoices\IncludingTaxInvoice;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
@@ -14,28 +17,27 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     private $customer;
 
     /**
-     * @var IncludingTaxInvoice
+     * @var IdGeneratorInterface
      */
-    private $includingTaxInvoice;
+    private $idGenerator;
+
     /**
-     * @var ExcludingTaxInvoice
+     * ID returned by the IdGeneratorInterface mock
+     *
+     * @var string
      */
-    private $excludingTaxInvoice;
+    private $newId;
 
     /**
      * Initialize variables
      */
     function __construct()
     {
-        $this->newId1 = '2015-02-14-0001';
-        $this->newId2 = '2015-02-14-0002';
+        $this->newId = '2015-02-14-0001';
 
-        $this->customer = m::mock('QuanticTelecom\Invoices\Contracts\CustomerInterface');
-        $this->idGenerator = m::mock('QuanticTelecom\Invoices\Contracts\IdGeneratorInterface');
-        $this->idGenerator->shouldReceive('generateNewId')->times(2)->andReturn($this->newId1, $this->newId2);
-
-        $this->includingTaxInvoice = new IncludingTaxInvoice($this->idGenerator, $this->customer);
-        $this->excludingTaxInvoice = new ExcludingTaxInvoice($this->idGenerator, $this->customer);
+        $this->customer = m::mock(CustomerInterface::class);
+        $this->idGenerator = m::mock(IdGeneratorInterface::class);
+        $this->idGenerator->shouldReceive('generateNewId')->andReturn($this->newId);
     }
 
     public function tearDown()
@@ -44,13 +46,24 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @param string $class An implementation of the Invoice class
+     * @return Invoice
+     */
+    private function getNewInvoice($class)
+    {
+        return new $class($this->idGenerator, $this->customer);
+    }
+
+    /**
      * @test
      */
     public function it_creates_an_invoice_with_an_id()
     {
-        $this->assertEquals($this->newId1, $this->includingTaxInvoice->getId());
+        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
+        $excludingTaxInvoice = $this->getNewInvoice(ExcludingTaxInvoice::class);
 
-        $this->assertEquals($this->newId2, $this->excludingTaxInvoice->getId());
+        $this->assertEquals($this->newId, $includingTaxInvoice->getId());
+        $this->assertEquals($this->newId, $excludingTaxInvoice->getId());
     }
 
     /**
@@ -58,11 +71,14 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
      */
     public function it_creates_an_invoice_with_O_total()
     {
-        $this->assertEquals(0, $this->includingTaxInvoice->getExcludingTaxTotalPrice());
-        $this->assertEquals(0, $this->includingTaxInvoice->getIncludingTaxTotalPrice());
+        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
+        $excludingTaxInvoice = $this->getNewInvoice(ExcludingTaxInvoice::class);
 
-        $this->assertEquals(0, $this->excludingTaxInvoice->getExcludingTaxTotalPrice());
-        $this->assertEquals(0, $this->excludingTaxInvoice->getIncludingTaxTotalPrice());
+        $this->assertEquals(0, $includingTaxInvoice->getExcludingTaxTotalPrice());
+        $this->assertEquals(0, $includingTaxInvoice->getIncludingTaxTotalPrice());
+
+        $this->assertEquals(0, $excludingTaxInvoice->getExcludingTaxTotalPrice());
+        $this->assertEquals(0, $excludingTaxInvoice->getIncludingTaxTotalPrice());
     }
 
     /**
@@ -70,11 +86,16 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
      */
     public function it_returns_the_item_after_added_it()
     {
-        $this->includingTaxInvoice->addItem($item = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
-        $this->excludingTaxInvoice->addItem($item = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
+        $excludingTaxInvoice = $this->getNewInvoice(ExcludingTaxInvoice::class);
 
-        $this->assertEquals([$item], $this->includingTaxInvoice->getItems());
-        $this->assertEquals([$item], $this->excludingTaxInvoice->getItems());
+        $item = m::mock(ItemInterface::class);
+
+        $includingTaxInvoice->addItem($item);
+        $excludingTaxInvoice->addItem($item);
+
+        $this->assertEquals([$item], $includingTaxInvoice->getItems());
+        $this->assertEquals([$item], $excludingTaxInvoice->getItems());
     }
 
     /**
@@ -82,19 +103,21 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
      */
     public function it_returns_the_including_tax_sum_for_including_tax_invoice()
     {
+        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
+
         $item1Price = 10.00;
         $item2Price = 8.00;
 
-        $this->includingTaxInvoice->addItem($item1 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
-        $this->includingTaxInvoice->addItem($item2 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $includingTaxInvoice->addItem($item1 = m::mock(ItemInterface::class));
+        $includingTaxInvoice->addItem($item2 = m::mock(ItemInterface::class));
         $item1->shouldReceive('getItemIncludingTaxTotalPrice')->andReturn($item1Price);
         $item2->shouldReceive('getItemIncludingTaxTotalPrice')->andReturn($item2Price);
 
         $includingTaxTotalPrice = $item1Price + $item2Price;
         $excludingTaxTotalPrice = round(($item1Price + $item2Price) / (1 + Invoice::$vatRate), 2);
 
-        $this->assertEquals($includingTaxTotalPrice, $this->includingTaxInvoice->getIncludingTaxTotalPrice());
-        $this->assertEquals($excludingTaxTotalPrice, $this->includingTaxInvoice->getExcludingTaxTotalPrice());
+        $this->assertEquals($includingTaxTotalPrice, $includingTaxInvoice->getIncludingTaxTotalPrice());
+        $this->assertEquals($excludingTaxTotalPrice, $includingTaxInvoice->getExcludingTaxTotalPrice());
     }
 
     /**
@@ -102,18 +125,50 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
      */
     public function it_returns_the_excluding_tax_sum_for_excluding_tax_invoice()
     {
+        $excludingTaxInvoice = $this->getNewInvoice(ExcludingTaxInvoice::class);
+
         $item1Price = 10.00;
         $item2Price = 8.00;
 
-        $this->excludingTaxInvoice->addItem($item1 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
-        $this->excludingTaxInvoice->addItem($item2 = m::mock('QuanticTelecom\Invoices\Contracts\ItemInterface'));
+        $excludingTaxInvoice->addItem($item1 = m::mock(ItemInterface::class));
+        $excludingTaxInvoice->addItem($item2 = m::mock(ItemInterface::class));
         $item1->shouldReceive('getItemExcludingTaxTotalPrice')->andReturn($item1Price);
         $item2->shouldReceive('getItemExcludingTaxTotalPrice')->andReturn($item2Price);
 
         $includingTaxTotalPrice = round(($item1Price + $item2Price) * (1 + Invoice::$vatRate), 2);
         $excludingTaxTotalPrice = $item1Price + $item2Price;
 
-        $this->assertEquals($excludingTaxTotalPrice, $this->excludingTaxInvoice->getExcludingTaxTotalPrice());
-        $this->assertEquals($includingTaxTotalPrice, $this->excludingTaxInvoice->getIncludingTaxTotalPrice());
+        $this->assertEquals($excludingTaxTotalPrice, $excludingTaxInvoice->getExcludingTaxTotalPrice());
+        $this->assertEquals($includingTaxTotalPrice, $excludingTaxInvoice->getIncludingTaxTotalPrice());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_creation_date_after_setting()
+    {
+        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
+        $backToTheFuture = Carbon::createFromDate(1955, 11, 5);
+
+        $this->assertNull($includingTaxInvoice->getCreatedAt());
+
+        $includingTaxInvoice->setCreatedAt($backToTheFuture);
+
+        $this->assertEquals($includingTaxInvoice->getCreatedAt(), $backToTheFuture);
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_due_date_after_setting()
+    {
+        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
+        $backToTheFuture = Carbon::createFromDate(1955, 11, 5);
+
+        $this->assertNull($includingTaxInvoice->getCreatedAt());
+
+        $includingTaxInvoice->setDueDate($backToTheFuture);
+
+        $this->assertEquals($includingTaxInvoice->getDueDate(), $backToTheFuture);
     }
 }
