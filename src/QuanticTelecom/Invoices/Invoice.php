@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
 use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
+use QuanticTelecom\Invoices\Contracts\Payment;
 
 abstract class Invoice {
 
@@ -38,6 +39,11 @@ abstract class Invoice {
      * @var Carbon
      */
     private $dueDate;
+
+    /**
+     * @var Payment
+     */
+    private $payment;
 
     /**
      * @param IdGeneratorInterface $idGenerator
@@ -149,5 +155,28 @@ abstract class Invoice {
 
         $this->createdAt = $createdAt;
         return $this;
+    }
+
+    /**
+     * @return Payment
+     */
+    public function getPayment()
+    {
+        return $this->payment;
+    }
+
+    /**
+     * @param Payment $payment
+     * @return self
+     */
+    public function setPayment(Payment $payment)
+    {
+        $this->payment = $payment;
+        return $this;
+    }
+
+    public function isPaid()
+    {
+        return !is_null($this->payment);
     }
 }
