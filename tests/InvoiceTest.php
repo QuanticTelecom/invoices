@@ -5,11 +5,11 @@ use Mockery as m;
 use Carbon\Carbon;
 use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
-use QuanticTelecom\Invoices\Contracts\Payment;
+use QuanticTelecom\Invoices\Contracts\PaymentInterface;
 use QuanticTelecom\Invoices\ExcludingTaxInvoice;
 use QuanticTelecom\Invoices\IncludingTaxInvoice;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
-use QuanticTelecom\Invoices\Invoice;
+use QuanticTelecom\Invoices\AbstractInvoice as Invoice;
 
 class InvoiceTest extends PHPUnit_Framework_TestCase
 {
@@ -180,7 +180,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase
     public function itReturnsThePaymentAfterSetting()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
-        $payment = m::mock(Payment::class);
+        $payment = m::mock(PaymentInterface::class);
 
         $includingTaxInvoice->setPayment($payment);
 
@@ -193,7 +193,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase
     public function theInvoiceIsPaidAfterSettingPayment()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
-        $payment = m::mock(Payment::class);
+        $payment = m::mock(PaymentInterface::class);
 
         $this->assertFalse($includingTaxInvoice->isPaid());
 

@@ -4,9 +4,9 @@ use Carbon\Carbon;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
 use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
-use QuanticTelecom\Invoices\Contracts\Payment;
+use QuanticTelecom\Invoices\Contracts\PaymentInterface;
 
-abstract class Invoice
+abstract class AbstractInvoice
 {
     /**
      * VAT rate in France
@@ -41,7 +41,7 @@ abstract class Invoice
     private $dueDate;
 
     /**
-     * @var Payment
+     * @var PaymentInterface
      */
     private $payment;
 
@@ -158,7 +158,7 @@ abstract class Invoice
     }
 
     /**
-     * @return Payment
+     * @return PaymentInterface
      */
     public function getPayment()
     {
@@ -166,10 +166,10 @@ abstract class Invoice
     }
 
     /**
-     * @param Payment $payment
+     * @param PaymentInterface $payment
      * @return self
      */
-    public function setPayment(Payment $payment)
+    public function setPayment(PaymentInterface $payment)
     {
         $this->payment = $payment;
         return $this;
