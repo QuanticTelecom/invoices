@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Mockery as m;
 use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
@@ -139,5 +140,35 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals($excludingTaxTotalPrice, $excludingTaxInvoice->getExcludingTaxTotalPrice());
         $this->assertEquals($includingTaxTotalPrice, $excludingTaxInvoice->getIncludingTaxTotalPrice());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_creation_date_after_setting()
+    {
+        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
+        $backToTheFuture = Carbon::createFromDate(1955, 11, 5);
+
+        $this->assertNull($includingTaxInvoice->getCreatedAt());
+
+        $includingTaxInvoice->setCreatedAt($backToTheFuture);
+
+        $this->assertEquals($includingTaxInvoice->getCreatedAt(), $backToTheFuture);
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_due_date_after_setting()
+    {
+        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
+        $backToTheFuture = Carbon::createFromDate(1955, 11, 5);
+
+        $this->assertNull($includingTaxInvoice->getCreatedAt());
+
+        $includingTaxInvoice->setDueDate($backToTheFuture);
+
+        $this->assertEquals($includingTaxInvoice->getDueDate(), $backToTheFuture);
     }
 }
