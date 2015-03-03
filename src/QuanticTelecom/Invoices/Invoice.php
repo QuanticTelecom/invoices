@@ -1,5 +1,6 @@
 <?php namespace QuanticTelecom\Invoices;
 
+use Carbon\Carbon;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
 use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
@@ -27,6 +28,16 @@ abstract class Invoice {
      * @var ItemInterface[]
      */
     public $items = [];
+
+    /**
+     * @var Carbon
+     */
+    private $createdAt;
+
+    /**
+     * @var Carbon
+     */
+    private $dueDate;
 
     /**
      * @param IdGeneratorInterface $idGenerator
@@ -94,5 +105,49 @@ abstract class Invoice {
     public function getVatAmount()
     {
         return $this->getIncludingTaxTotalPrice() - $this->getExcludingTaxTotalPrice();
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getDueDate()
+    {
+        return $this->dueDate;
+    }
+
+    /**
+     * @param Carbon $dueDate | null
+     * @return self
+     */
+    public function setDueDate(Carbon $dueDate = null)
+    {
+        if (is_null($dueDate)) {
+            $dueDate = Carbon::now();
+        }
+
+        $this->dueDate = $dueDate;
+        return $this;
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param Carbon $createdAt | null
+     * @return self
+     */
+    public function setCreatedAt(Carbon $createdAt = null)
+    {
+        if (is_null($createdAt)) {
+            $createdAt = Carbon::now();
+        }
+
+        $this->createdAt = $createdAt;
+        return $this;
     }
 }
