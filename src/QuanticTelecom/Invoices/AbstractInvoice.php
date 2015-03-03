@@ -6,7 +6,7 @@ use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
 use QuanticTelecom\Invoices\Contracts\Payment;
 
-abstract class Invoice
+abstract class AbstractInvoice
 {
     /**
      * VAT rate in France

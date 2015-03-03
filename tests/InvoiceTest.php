@@ -9,7 +9,7 @@ use QuanticTelecom\Invoices\Contracts\Payment;
 use QuanticTelecom\Invoices\ExcludingTaxInvoice;
 use QuanticTelecom\Invoices\IncludingTaxInvoice;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
-use QuanticTelecom\Invoices\Invoice;
+use QuanticTelecom\Invoices\AbstractInvoice as Invoice;
 
 class InvoiceTest extends PHPUnit_Framework_TestCase
 {
