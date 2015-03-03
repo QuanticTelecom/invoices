@@ -86,23 +86,6 @@ class InvoiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itReturnsTheItemAfterAddedIt()
-    {
-        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
-        $excludingTaxInvoice = $this->getNewInvoice(ExcludingTaxInvoice::class);
-
-        $item = m::mock(ItemInterface::class);
-
-        $includingTaxInvoice->addItem($item);
-        $excludingTaxInvoice->addItem($item);
-
-        $this->assertEquals([$item], $includingTaxInvoice->getItems());
-        $this->assertEquals([$item], $excludingTaxInvoice->getItems());
-    }
-
-    /**
-     * @test
-     */
     public function itReturnsTheIncludingTaxSumForIncludingTaxInvoice()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
