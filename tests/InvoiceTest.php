@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Mockery as m;
 use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
+use QuanticTelecom\Invoices\Contracts\Payment;
 use QuanticTelecom\Invoices\ExcludingTaxInvoice;
 use QuanticTelecom\Invoices\IncludingTaxInvoice;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
@@ -170,5 +171,33 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
         $includingTaxInvoice->setDueDate($backToTheFuture);
 
         $this->assertEquals($includingTaxInvoice->getDueDate(), $backToTheFuture);
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_payment_after_setting()
+    {
+        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
+        $payment = m::mock(Payment::class);
+
+        $includingTaxInvoice->setPayment($payment);
+
+        $this->assertEquals($includingTaxInvoice->getPayment(), $payment);
+    }
+
+    /**
+     * @test
+     */
+    public function the_invoice_is_paid_after_setting_payment()
+    {
+        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
+        $payment = m::mock(Payment::class);
+
+        $this->assertFalse($includingTaxInvoice->isPaid());
+
+        $includingTaxInvoice->setPayment($payment);
+
+        $this->assertTrue($includingTaxInvoice->isPaid());
     }
 }
