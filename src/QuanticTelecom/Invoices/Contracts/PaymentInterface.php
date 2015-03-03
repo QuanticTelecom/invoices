@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 
-interface Payment
+interface PaymentInterface
 {
     /**
      * @return string
