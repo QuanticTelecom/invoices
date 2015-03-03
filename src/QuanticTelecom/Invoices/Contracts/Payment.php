@@ -2,8 +2,8 @@
 
 use Carbon\Carbon;
 
-interface Payment {
-
+interface Payment
+{
     /**
      * @return string
      */
