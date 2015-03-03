@@ -1,7 +1,7 @@
 <?php namespace QuanticTelecom\Invoices\Contracts;
 
-interface CustomerInterface {
-
+interface CustomerInterface
+{
     /**
      * Get the ID that should be shown on the customer's invoices.
      *

@@ -1,7 +1,8 @@
-<?php
+<?php namespace QuanticTelecom\Invoices\Tests;
 
-use Carbon\Carbon;
+use PHPUnit_Framework_TestCase;
 use Mockery as m;
+use Carbon\Carbon;
 use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
 use QuanticTelecom\Invoices\Contracts\Payment;
@@ -10,8 +11,8 @@ use QuanticTelecom\Invoices\IncludingTaxInvoice;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
 use QuanticTelecom\Invoices\Invoice;
 
-class InvoiceTest extends PHPUnit_Framework_TestCase {
-
+class InvoiceTest extends PHPUnit_Framework_TestCase
+{
     /**
      * @var CustomerInterface
      */
@@ -32,7 +33,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     /**
      * Initialize variables
      */
-    function __construct()
+    public function __construct()
     {
         $this->newId = '2015-02-14-0001';
 
@@ -58,7 +59,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function it_creates_an_invoice_with_an_id()
+    public function itCreatesAnInvoiceWithAnId()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
         $excludingTaxInvoice = $this->getNewInvoice(ExcludingTaxInvoice::class);
@@ -70,7 +71,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function it_creates_an_invoice_with_O_total()
+    public function itCreatesAnInvoiceWithOTotal()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
         $excludingTaxInvoice = $this->getNewInvoice(ExcludingTaxInvoice::class);
@@ -85,7 +86,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function it_returns_the_item_after_added_it()
+    public function itReturnsTheItemAfterAddedIt()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
         $excludingTaxInvoice = $this->getNewInvoice(ExcludingTaxInvoice::class);
@@ -102,7 +103,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function it_returns_the_including_tax_sum_for_including_tax_invoice()
+    public function itReturnsTheIncludingTaxSumForIncludingTaxInvoice()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
 
@@ -124,7 +125,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function it_returns_the_excluding_tax_sum_for_excluding_tax_invoice()
+    public function itReturnsTheExcludingTaxSumForExcludingTaxInvoice()
     {
         $excludingTaxInvoice = $this->getNewInvoice(ExcludingTaxInvoice::class);
 
@@ -146,7 +147,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function it_returns_the_creation_date_after_setting()
+    public function itReturnsTheCreationDateAfterSetting()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
         $backToTheFuture = Carbon::createFromDate(1955, 11, 5);
@@ -161,7 +162,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function it_returns_the_due_date_after_setting()
+    public function itReturnsTheDueDateAfterSetting()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
         $backToTheFuture = Carbon::createFromDate(1955, 11, 5);
@@ -176,7 +177,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function it_returns_the_payment_after_setting()
+    public function itReturnsThePaymentAfterSetting()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
         $payment = m::mock(Payment::class);
@@ -189,7 +190,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function the_invoice_is_paid_after_setting_payment()
+    public function theInvoiceIsPaidAfterSettingPayment()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
         $payment = m::mock(Payment::class);

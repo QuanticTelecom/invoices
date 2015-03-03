@@ -1,7 +1,7 @@
 <?php namespace QuanticTelecom\Invoices\Contracts;
 
-interface IdGeneratorInterface {
-
+interface IdGeneratorInterface
+{
     /**
      * Return a new ID to use for an invoice
      *

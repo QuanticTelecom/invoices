@@ -1,7 +1,7 @@
-<?php namespace QuanticTelecom\Invoices\Contracts; 
+<?php namespace QuanticTelecom\Invoices\Contracts;
 
-interface ItemInterface {
-
+interface ItemInterface
+{
     /**
      * @return string
      */

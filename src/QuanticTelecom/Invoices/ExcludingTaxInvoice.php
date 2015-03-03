@@ -1,7 +1,7 @@
 <?php namespace QuanticTelecom\Invoices;
 
-class ExcludingTaxInvoice extends Invoice {
-
+class ExcludingTaxInvoice extends Invoice
+{
     /**
      * @return float
      */
@@ -17,8 +17,7 @@ class ExcludingTaxInvoice extends Invoice {
     {
         $excludingTaxTotalPrice = 0;
 
-        foreach ($this->getItems() as $item)
-        {
+        foreach ($this->getItems() as $item) {
             $excludingTaxTotalPrice += $item->getItemExcludingTaxTotalPrice();
         }
 
