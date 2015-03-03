@@ -3,11 +3,12 @@
 use Carbon\Carbon;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
 use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
-use QuanticTelecom\Invoices\Contracts\ItemInterface;
 use QuanticTelecom\Invoices\Contracts\PaymentInterface;
 
 abstract class AbstractInvoice
 {
+    use ItemsContainerTrait;
+
     /**
      * VAT rate in France
      *
@@ -24,11 +25,6 @@ abstract class AbstractInvoice
      * @var CustomerInterface
      */
     private $customer;
-
-    /**
-     * @var ItemInterface[]
-     */
-    public $items = [];
 
     /**
      * @var Carbon
@@ -70,29 +66,6 @@ abstract class AbstractInvoice
     protected function setId($id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * Add an item to the invoice
-     *
-     * @param ItemInterface $item
-     * @return $this
-     */
-    public function addItem(ItemInterface $item)
-    {
-        $this->items[] = $item;
-
-        return $this;
-    }
-
-    /**
-     * Add an item to the invoice
-     *
-     * @return ItemInterface[]
-     */
-    public function getItems()
-    {
-        return $this->items;
     }
 
     /**
