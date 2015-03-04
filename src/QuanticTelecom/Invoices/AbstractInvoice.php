@@ -70,6 +70,14 @@ abstract class AbstractInvoice
     }
 
     /**
+     * @return CustomerInterface
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
      * @return float
      */
     abstract public function getIncludingTaxTotalPrice();
