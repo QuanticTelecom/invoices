@@ -8,6 +8,7 @@ use QuanticTelecom\Invoices\Contracts\PaymentInterface;
 abstract class AbstractInvoice
 {
     use ItemsContainerTrait;
+    use GroupsContainerTrait;
 
     /**
      * VAT rate in France

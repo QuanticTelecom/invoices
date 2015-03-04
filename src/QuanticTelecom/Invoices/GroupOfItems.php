@@ -3,6 +3,7 @@
 class GroupOfItems
 {
     use ItemsContainerTrait;
+    use GroupsContainerTrait;
 
     /**
      * @var string
