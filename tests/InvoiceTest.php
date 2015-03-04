@@ -71,6 +71,18 @@ class InvoiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function weCanGetTheCustomerForANewInvoice()
+    {
+        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
+        $excludingTaxInvoice = $this->getNewInvoice(ExcludingTaxInvoice::class);
+
+        $this->assertEquals($includingTaxInvoice->getCustomer(), $this->customer);
+        $this->assertEquals($excludingTaxInvoice->getCustomer(), $this->customer);
+    }
+
+    /**
+     * @test
+     */
     public function itCreatesAnInvoiceWithOTotal()
     {
         $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
