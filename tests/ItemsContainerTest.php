@@ -15,7 +15,7 @@ class ItemsContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @return ItemsContainerTrait
      */
-    private function getNewItemContainer()
+    private function getNewItemsContainer()
     {
         return $this->getObjectForTrait(ItemsContainerTrait::class);
     }
@@ -23,9 +23,9 @@ class ItemsContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itReturnsTheItemAfterAddedIt()
+    public function weCanGetTheItemAfterAddedIt()
     {
-        $itemsContainer = $this->getNewItemContainer();
+        $itemsContainer = $this->getNewItemsContainer();
 
         $item = m::mock(ItemInterface::class);
 
