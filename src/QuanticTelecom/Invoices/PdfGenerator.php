@@ -1,10 +1,11 @@
 <?php namespace QuanticTelecom\Invoices;
 
-use CanGelis\PDF\PDF;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\Factory;
 use QuanticTelecom\Invoices\Contracts\HtmlGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\PdfGeneratorInterface;
 use RuntimeException;
+use Symfony\Component\Process\Process;
 
 class PdfGenerator implements PdfGeneratorInterface
 {
@@ -14,38 +15,50 @@ class PdfGenerator implements PdfGeneratorInterface
     private $invoice;
 
     /**
+     * @var Filesystem
+     */
+    private $files;
+
+    /**
      * Return a new PdfGenerator instance.
      *
      * @param AbstractInvoice $invoice
+     * @param Filesystem $files
      * @param Factory $factory
      * @param HtmlGeneratorInterface $htmlGenerator
      */
     public function __construct(
         AbstractInvoice $invoice,
+        Filesystem $files = null,
         Factory $factory = null,
         HtmlGeneratorInterface $htmlGenerator = null
     ) {
         $this->invoice = $invoice;
+
+        if (is_null($files)) {
+            $this->files = new Filesystem();
+        } else {
+            $this->files = $files;
+        }
 
         if (is_null($htmlGenerator)) {
             $this->htmlGenerator = new HtmlGenerator($invoice, $factory);
         } else {
             $this->htmlGenerator = $htmlGenerator;
         }
-
-        $this->pdf = new PDF($this->getWkhtmltopdfPath());
     }
 
     /**
-     * Get the WkHTMLtoPDF path.
+     * Get the PhantomJS process instance.
      *
-     * @return string
+     * @param string $viewPath
+     * @return \Symfony\Component\Process\Process
      */
-    private function getWkhtmltopdfPath()
+    private function getPhantomProcess($viewPath)
     {
         $system = $this->getSystem();
-
-        return __DIR__.'/bin/'.$system.'/wkhtmltopdf'.$this->getExtension($system);
+        $phantom = __DIR__.'/bin/'.$system.'/phantomjs'.$this->getExtension($system);
+        return new Process($phantom.' invoice.js '.$viewPath, __DIR__);
     }
 
     /**
@@ -79,14 +92,35 @@ class PdfGenerator implements PdfGeneratorInterface
     }
 
     /**
-     * Get the rendered PDF of the invoice.
+     * Write the view HTML so PhantomJS can access it.
      *
-     * @return string PDF as a string
+     * @param string $storagePath
+     * @return string
      */
-    public function generate()
+    private function writeViewForImaging($storagePath)
     {
         $html = $this->htmlGenerator->generate();
+        $storagePath = $storagePath ?: storage_path().'/framework';
 
-        return $this->pdf->loadHTML($html)->pageSize('A4')->get();
+        $this->files->put($path = $storagePath.'/'. $this->invoice->getId() .'.pdf', $html);
+        return $path;
+    }
+
+    /**
+     * Get the rendered PDF of the invoice.
+     *
+     * @param string $storagePath | '/tmp'
+     * @return string PDF as a string
+     */
+    public function generate($storagePath = '/tmp')
+    {
+        // To properly capture a screenshot of the invoice view, we will pipe out to
+        // PhantomJS, which is a headless browser. We'll then capture a PNG image
+        // of the webpage, which will produce a very faithful copy of the page.
+        $viewPath = $this->writeViewForImaging($storagePath);
+        $this->getPhantomProcess($viewPath)
+            ->setTimeout(10)->run();
+
+        return $this->files->get($viewPath);
     }
 }

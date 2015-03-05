@@ -35,8 +35,9 @@ class PdfGeneratorTest extends PHPUnit_Framework_TestCase
         $htmlGenerator->shouldReceive('generate')->andReturn($html);
 
         $invoice = m::mock(Invoice::class);
+        $invoice->shouldReceive('getId')->andReturn('2015-03-05-0042');
 
-        return new PdfGenerator($invoice, null, $htmlGenerator);
+        return new PdfGenerator($invoice, $this->filesystem, null, $htmlGenerator);
     }
 
     /**
