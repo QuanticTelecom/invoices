@@ -24,7 +24,7 @@ use QuanticTelecom\Invoices\AbstractInvoice as Invoice;
 class HtmlGeneratorTest extends PHPUnit_Framework_TestCase
 {
     private $invoiceData = [
-        'id' => '2015-03-04-1337',
+        'id' => '2015-03-04-0042',
         'createdAt' => '1955-11-5',
         'dueDate' => '2015-10-21',
         'excludingTaxTotalPrice' => 8086,
@@ -33,7 +33,7 @@ class HtmlGeneratorTest extends PHPUnit_Framework_TestCase
     ];
 
     private $customerData = [
-        'id' => 'sauron-du-93',
+        'id' => '1337',
         'name' => 'Sauron',
         'address' => 'Black Gate of Mordor'
     ];
@@ -74,6 +74,16 @@ class HtmlGeneratorTest extends PHPUnit_Framework_TestCase
         'name' => 'gold',
         'date' => '2015-10-20'
     ];
+
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    public function setUp()
+    {
+        $this->filesystem = new Filesystem();
+    }
 
     public function tearDown()
     {
@@ -225,5 +235,7 @@ class HtmlGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertContains((string) $this->groupsData['stuff']['items']['armor']['excludingTaxUnitPrice'], $html);
         $this->assertContains((string) $this->groupsData['stuff']['items']['armor']['excludingTaxTotalPrice'], $html);
         $this->assertContains((string) $this->groupsData['stuff']['items']['armor']['includingTaxTotalPrice'], $html);
+
+        $this->filesystem->put('/tmp/invoice.html', $html);
     }
 }
