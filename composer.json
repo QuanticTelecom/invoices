@@ -20,9 +20,9 @@
         "squizlabs/php_codesniffer": "~2.0"
     },
     "autoload": {
-        "classmap": [
-            "src/migrations"
-        ],
+        "psr-4": {
+            "QuanticTelecom\\Invoices\\Tests\\": "tests/"
+        },
         "psr-0": {
             "QuanticTelecom\\Invoices\\": "src/"
         }
