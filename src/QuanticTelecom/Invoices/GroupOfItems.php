@@ -1,6 +1,8 @@
 <?php namespace QuanticTelecom\Invoices;
 
-class GroupOfItems
+use QuanticTelecom\Invoices\Contracts\GroupOfItemsInterface;
+
+class GroupOfItems implements GroupOfItemsInterface
 {
     use ItemsContainerTrait;
     use GroupsContainerTrait;
@@ -18,6 +20,11 @@ class GroupOfItems
         $this->name = $name;
     }
 
+    /**
+     * Get the name of the group.
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
