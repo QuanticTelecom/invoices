@@ -3,9 +3,10 @@
 use Carbon\Carbon;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
 use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
+use QuanticTelecom\Invoices\Contracts\InvoiceInterface;
 use QuanticTelecom\Invoices\Contracts\PaymentInterface;
 
-abstract class AbstractInvoice
+abstract class AbstractInvoice implements InvoiceInterface
 {
     use ItemsContainerTrait;
     use GroupsContainerTrait;
@@ -157,6 +158,9 @@ abstract class AbstractInvoice
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function isPaid()
     {
         return !is_null($this->payment);
