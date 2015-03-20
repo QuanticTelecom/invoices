@@ -3,6 +3,7 @@
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\Factory;
 use QuanticTelecom\Invoices\Contracts\HtmlGeneratorInterface;
+use QuanticTelecom\Invoices\Contracts\InvoiceInterface;
 use QuanticTelecom\Invoices\Contracts\PdfGeneratorInterface;
 use RuntimeException;
 use Symfony\Component\Process\Process;
@@ -10,7 +11,7 @@ use Symfony\Component\Process\Process;
 class PdfGenerator implements PdfGeneratorInterface
 {
     /**
-     * @var AbstractInvoice
+     * @var InvoiceInterface
      */
     private $invoice;
 
@@ -22,13 +23,13 @@ class PdfGenerator implements PdfGeneratorInterface
     /**
      * Return a new PdfGenerator instance.
      *
-     * @param AbstractInvoice $invoice
+     * @param InvoiceInterface $invoice
      * @param Filesystem $files
      * @param Factory $factory
      * @param HtmlGeneratorInterface $htmlGenerator
      */
     public function __construct(
-        AbstractInvoice $invoice,
+        InvoiceInterface $invoice,
         Filesystem $files = null,
         Factory $factory = null,
         HtmlGeneratorInterface $htmlGenerator = null

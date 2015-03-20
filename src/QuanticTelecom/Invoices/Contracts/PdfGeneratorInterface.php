@@ -1,15 +1,13 @@
 <?php namespace QuanticTelecom\Invoices\Contracts;
 
-use QuanticTelecom\Invoices\AbstractInvoice;
-
 interface PdfGeneratorInterface
 {
     /**
      * Return a new PdfGenerator instance.
      *
-     * @param AbstractInvoice $invoice
+     * @param InvoiceInterface $invoice
      */
-    public function __construct(AbstractInvoice $invoice);
+    public function __construct(InvoiceInterface $invoice);
 
     /**
      * Get the rendered PDF of the invoice.

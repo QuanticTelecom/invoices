@@ -1,14 +1,14 @@
 <?php namespace QuanticTelecom\Invoices;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\View\Factory;
 use Illuminate\View\View;
 use QuanticTelecom\Invoices\Contracts\HtmlGeneratorInterface;
+use QuanticTelecom\Invoices\Contracts\InvoiceInterface;
 
 class HtmlGenerator implements HtmlGeneratorInterface
 {
     /**
-     * @var AbstractInvoice
+     * @var InvoiceInterface
      */
     private $invoice;
 
@@ -22,10 +22,10 @@ class HtmlGenerator implements HtmlGeneratorInterface
     /**
      * Return a new HtmlGenerator instance.
      *
-     * @param AbstractInvoice $invoice
+     * @param InvoiceInterface $invoice
      * @param Factory $factory
      */
-    public function __construct(AbstractInvoice $invoice, Factory $factory = null)
+    public function __construct(InvoiceInterface $invoice, Factory $factory = null)
     {
         $this->invoice = $invoice;
 

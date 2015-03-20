@@ -55,6 +55,8 @@ abstract class AbstractInvoice implements InvoiceInterface
     }
 
     /**
+     * Get the ID of the invoice.
+     *
      * @return string
      */
     public function getId()
@@ -71,6 +73,8 @@ abstract class AbstractInvoice implements InvoiceInterface
     }
 
     /**
+     * Get the customer.
+     *
      * @return CustomerInterface
      */
     public function getCustomer()
@@ -79,16 +83,22 @@ abstract class AbstractInvoice implements InvoiceInterface
     }
 
     /**
+     * Get the price of all items with all taxes.
+     *
      * @return float
      */
     abstract public function getIncludingTaxTotalPrice();
 
     /**
+     * Get the price of all items without taxes.
+     *
      * @return float
      */
     abstract public function getExcludingTaxTotalPrice();
 
     /**
+     * Get the amount of VAT of the invoice.
+     *
      * @return float
      */
     public function getVatAmount()
@@ -97,6 +107,8 @@ abstract class AbstractInvoice implements InvoiceInterface
     }
 
     /**
+     * Get the due date of the invoice.
+     *
      * @return Carbon
      */
     public function getDueDate()
@@ -105,6 +117,8 @@ abstract class AbstractInvoice implements InvoiceInterface
     }
 
     /**
+     * Set the due date of the invoice, if null, set the current date.
+     *
      * @param Carbon $dueDate | null
      * @return self
      */
@@ -119,6 +133,8 @@ abstract class AbstractInvoice implements InvoiceInterface
     }
 
     /**
+     * Get the creation date of the invoice.
+     *
      * @return Carbon
      */
     public function getCreatedAt()
@@ -127,6 +143,8 @@ abstract class AbstractInvoice implements InvoiceInterface
     }
 
     /**
+     * Set the creation date of the invoice, if null, set the current date.
+     *
      * @param Carbon $createdAt | null
      * @return self
      */
@@ -141,7 +159,9 @@ abstract class AbstractInvoice implements InvoiceInterface
     }
 
     /**
-     * @return PaymentInterface
+     * Get the payment instance of the invoice if paid or null.
+     *
+     * @return PaymentInterface | null
      */
     public function getPayment()
     {
@@ -149,6 +169,8 @@ abstract class AbstractInvoice implements InvoiceInterface
     }
 
     /**
+     * Set the payment instance for a paid invoice.
+     *
      * @param PaymentInterface $payment
      * @return self
      */
@@ -159,6 +181,8 @@ abstract class AbstractInvoice implements InvoiceInterface
     }
 
     /**
+     * Check if the payment instance is set.
+     *
      * @return bool
      */
     public function isPaid()
