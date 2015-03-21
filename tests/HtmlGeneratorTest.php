@@ -10,11 +10,11 @@ use Illuminate\View\FileViewFinder;
 use PHPUnit_Framework_TestCase;
 use Mockery as m;
 use QuanticTelecom\Invoices\HtmlGenerator;
-use QuanticTelecom\Invoices\Tests\Helpers\InvoiceFactoryTrait;
+use QuanticTelecom\Invoices\Tests\Helpers\InvoiceStubFactoryTrait;
 
 class HtmlGeneratorTest extends PHPUnit_Framework_TestCase
 {
-    use InvoiceFactoryTrait;
+    use InvoiceStubFactoryTrait;
 
     /**
      * @var Filesystem

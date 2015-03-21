@@ -8,7 +8,7 @@ use QuanticTelecom\Invoices\GroupOfItems;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
 use QuanticTelecom\Invoices\AbstractInvoice as Invoice;
 
-trait InvoiceFactoryTrait
+trait InvoiceStubFactoryTrait
 {
     private $invoiceData = [
         'id' => '2015-03-04-0042',
