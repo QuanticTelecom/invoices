@@ -57,7 +57,7 @@ trait InvoiceStubFactoryTrait
         ]
     ];
 
-    private $payment = [
+    private $paymentData = [
         'name' => 'gold',
         'date' => '2015-10-20'
     ];
@@ -113,9 +113,9 @@ trait InvoiceStubFactoryTrait
         $stuff->shouldReceive('getItems')->andReturn([$gloves, $armor]);
         $stuff->shouldReceive('getGroups')->andReturn([]);
 
-        $paymentDate = Carbon::createFromFormat('Y-m-j', $this->payment['date']);
+        $paymentDate = Carbon::createFromFormat('Y-m-j', $this->paymentData['date']);
         $payment = m::mock(PaymentInterface::class);
-        $payment->shouldReceive('getPaymentName')->andReturn($this->payment['name']);
+        $payment->shouldReceive('getPaymentName')->andReturn($this->paymentData['name']);
         $payment->shouldReceive('getPaymentDate')->andReturn($paymentDate);
 
         $backToTheFutureCreation = Carbon::createFromFormat('Y-m-j', $this->invoiceData['createdAt']);
