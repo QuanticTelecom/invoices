@@ -66,9 +66,10 @@ trait InvoiceStubFactoryTrait
     ];
 
     /**
+     * @param string $class concrete class to mock
      * @return Invoice mock
      */
-    protected function getNewInvoice()
+    protected function getNewInvoice($class = Invoice::class)
     {
         $sauron = m::mock(CustomerInterface::class);
         $sauron->shouldReceive('getCustomerId')->andReturn($this->customerData['id']);
@@ -129,7 +130,7 @@ trait InvoiceStubFactoryTrait
 
         $backToTheFutureCreation = Carbon::createFromFormat('Y-m-j', $this->invoiceData['createdAt']);
         $backToTheFutureDueDate = Carbon::createFromFormat('Y-m-j', $this->invoiceData['dueDate']);
-        $invoice = m::mock(Invoice::class);
+        $invoice = m::mock($class);
         $invoice->shouldReceive('getId')
             ->andReturn($this->invoiceData['id']);
         $invoice->shouldReceive('getCustomer')
