@@ -31,6 +31,7 @@ trait InvoiceStubFactoryTrait
             'quantity' => 1,
             'excludingTaxUnitPrice' => 8000,
             'excludingTaxTotalPrice' => 8000,
+            'includingTaxUnitPrice' => 10000,
             'includingTaxTotalPrice' => 10000,
         ]
     ];
@@ -44,6 +45,7 @@ trait InvoiceStubFactoryTrait
                     'quantity' => 2,
                     'excludingTaxUnitPrice' => 8,
                     'excludingTaxTotalPrice' => 16,
+                    'includingTaxUnitPrice' => 10,
                     'includingTaxTotalPrice' => 20,
                 ],
                 'armor' => [
@@ -51,6 +53,7 @@ trait InvoiceStubFactoryTrait
                     'quantity' => 1,
                     'excludingTaxUnitPrice' => 70,
                     'excludingTaxTotalPrice' => 70,
+                    'includingTaxUnitPrice' => 100,
                     'includingTaxTotalPrice' => 100,
                 ]
             ]
@@ -81,6 +84,8 @@ trait InvoiceStubFactoryTrait
             ->andReturn($this->itemsData['ring']['excludingTaxUnitPrice']);
         $ring->shouldReceive('getItemExcludingTaxTotalPrice')
             ->andReturn($this->itemsData['ring']['excludingTaxTotalPrice']);
+        $ring->shouldReceive('getItemIncludingTaxUnitPrice')
+            ->andReturn($this->itemsData['ring']['includingTaxUnitPrice']);
         $ring->shouldReceive('getItemIncludingTaxTotalPrice')
             ->andReturn($this->itemsData['ring']['includingTaxTotalPrice']);
 
@@ -93,6 +98,8 @@ trait InvoiceStubFactoryTrait
             ->andReturn($this->groupsData['stuff']['items']['gloves']['excludingTaxUnitPrice']);
         $gloves->shouldReceive('getItemExcludingTaxTotalPrice')
             ->andReturn($this->groupsData['stuff']['items']['gloves']['excludingTaxTotalPrice']);
+        $gloves->shouldReceive('getItemIncludingTaxUnitPrice')
+            ->andReturn($this->groupsData['stuff']['items']['gloves']['includingTaxUnitPrice']);
         $gloves->shouldReceive('getItemIncludingTaxTotalPrice')
             ->andReturn($this->groupsData['stuff']['items']['gloves']['includingTaxTotalPrice']);
 
@@ -105,6 +112,8 @@ trait InvoiceStubFactoryTrait
             ->andReturn($this->groupsData['stuff']['items']['armor']['excludingTaxUnitPrice']);
         $armor->shouldReceive('getItemExcludingTaxTotalPrice')
             ->andReturn($this->groupsData['stuff']['items']['armor']['excludingTaxTotalPrice']);
+        $armor->shouldReceive('getItemIncludingTaxUnitPrice')
+            ->andReturn($this->groupsData['stuff']['items']['armor']['includingTaxUnitPrice']);
         $armor->shouldReceive('getItemIncludingTaxTotalPrice')
             ->andReturn($this->groupsData['stuff']['items']['armor']['includingTaxTotalPrice']);
 
