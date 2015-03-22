@@ -10,7 +10,7 @@ use QuanticTelecom\Invoices\AbstractInvoice as Invoice;
 
 trait InvoiceStubFactoryTrait
 {
-    private $invoiceData = [
+    protected $invoiceData = [
         'id' => '2015-03-04-0042',
         'createdAt' => '1955-11-5',
         'dueDate' => '2015-10-21',
@@ -19,13 +19,13 @@ trait InvoiceStubFactoryTrait
         'vatAmount' => 2034
     ];
 
-    private $customerData = [
+    protected $customerData = [
         'id' => '1337',
         'name' => 'Sauron',
         'address' => 'Black Gate of Mordor'
     ];
 
-    private $itemsData = [
+    protected $itemsData = [
         'ring' => [
             'name' => 'One ring',
             'quantity' => 1,
@@ -35,7 +35,7 @@ trait InvoiceStubFactoryTrait
         ]
     ];
 
-    private $groupsData = [
+    protected $groupsData = [
         'stuff' => [
             'name' => 'Killer stuff',
             'items' => [
@@ -57,7 +57,7 @@ trait InvoiceStubFactoryTrait
         ]
     ];
 
-    private $paymentData = [
+    protected $paymentData = [
         'name' => 'gold',
         'date' => '2015-10-20'
     ];
@@ -65,7 +65,7 @@ trait InvoiceStubFactoryTrait
     /**
      * @return Invoice mock
      */
-    private function getNewInvoice()
+    protected function getNewInvoice()
     {
         $sauron = m::mock(CustomerInterface::class);
         $sauron->shouldReceive('getCustomerId')->andReturn($this->customerData['id']);
