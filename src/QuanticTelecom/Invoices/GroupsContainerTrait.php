@@ -2,6 +2,10 @@
 
 use QuanticTelecom\Invoices\Contracts\GroupOfItemsInterface;
 
+/**
+ * Class GroupsContainerTrait
+ * @package QuanticTelecom\Invoices
+ */
 trait GroupsContainerTrait
 {
     /**

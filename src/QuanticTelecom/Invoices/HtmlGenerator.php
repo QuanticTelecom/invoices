@@ -5,6 +5,10 @@ use Illuminate\View\View;
 use QuanticTelecom\Invoices\Contracts\HtmlGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\InvoiceInterface;
 
+/**
+ * Class HtmlGenerator
+ * @package QuanticTelecom\Invoices
+ */
 class HtmlGenerator implements HtmlGeneratorInterface
 {
     /**

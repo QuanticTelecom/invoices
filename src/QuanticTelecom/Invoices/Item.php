@@ -2,6 +2,10 @@
 
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
 
+/**
+ * Class Item
+ * @package QuanticTelecom\Invoices
+ */
 class Item implements ItemInterface
 {
     /**

@@ -8,6 +8,10 @@ use QuanticTelecom\Invoices\Contracts\PdfGeneratorInterface;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 
+/**
+ * Class PdfGenerator
+ * @package QuanticTelecom\Invoices
+ */
 class PdfGenerator implements PdfGeneratorInterface
 {
     /**

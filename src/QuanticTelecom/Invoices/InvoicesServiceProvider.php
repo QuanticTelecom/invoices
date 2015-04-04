@@ -2,6 +2,10 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class InvoicesServiceProvider
+ * @package QuanticTelecom\Invoices
+ */
 class InvoicesServiceProvider extends ServiceProvider
 {
 

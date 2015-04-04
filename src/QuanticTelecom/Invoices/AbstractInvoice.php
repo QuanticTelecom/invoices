@@ -6,6 +6,10 @@ use QuanticTelecom\Invoices\Contracts\IdGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\InvoiceInterface;
 use QuanticTelecom\Invoices\Contracts\PaymentInterface;
 
+/**
+ * Class AbstractInvoice
+ * @package QuanticTelecom\Invoices
+ */
 abstract class AbstractInvoice implements InvoiceInterface
 {
     use ItemsContainerTrait;

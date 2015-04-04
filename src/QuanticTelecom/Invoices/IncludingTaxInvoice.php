@@ -1,5 +1,9 @@
 <?php namespace QuanticTelecom\Invoices;
 
+/**
+ * Class IncludingTaxInvoice
+ * @package QuanticTelecom\Invoices
+ */
 class IncludingTaxInvoice extends AbstractInvoice
 {
     /**

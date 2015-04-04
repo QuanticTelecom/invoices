@@ -2,6 +2,10 @@
 
 use QuanticTelecom\Invoices\Contracts\GroupOfItemsInterface;
 
+/**
+ * Class GroupOfItems
+ * @package QuanticTelecom\Invoices
+ */
 class GroupOfItems implements GroupOfItemsInterface
 {
     use ItemsContainerTrait;
