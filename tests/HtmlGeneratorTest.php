@@ -11,6 +11,7 @@ use Illuminate\View\Factory;
 use Illuminate\View\FileViewFinder;
 use PHPUnit_Framework_TestCase;
 use Mockery as m;
+use QuanticTelecom\Invoices\AbstractInvoice;
 use QuanticTelecom\Invoices\HtmlGenerator;
 use QuanticTelecom\Invoices\Tests\Helpers\InvoiceStubFactoryTrait;
 
@@ -93,6 +94,27 @@ class HtmlGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertContains((string) $this->groupsData['stuff']['items']['armor']['excludingTaxUnitPrice'], $html);
         $this->assertContains((string) $this->groupsData['stuff']['items']['armor']['excludingTaxTotalPrice'], $html);
         $this->assertContains((string) $this->groupsData['stuff']['items']['armor']['includingTaxTotalPrice'], $html);
+
+        $this->filesystem->put('/tmp/invoice.html', $html);
+    }
+
+    /**
+     * @test
+     */
+    public function itGenerateAnAddressWithMultipleLines()
+    {
+        $addressArray = ['First line', 'Second line'];
+        $htmlGenerator = $this->getNewHtmlGenerator();
+
+        $invoice = $this->getNewInvoice(AbstractInvoice::class, [
+            'customer' => [
+                'address' => $addressArray,
+            ],
+        ]);
+
+        $html = $htmlGenerator->generate($invoice);
+
+        $this->assertContains(implode('<br/>', $addressArray), $html);
 
         $this->filesystem->put('/tmp/invoice.html', $html);
     }

@@ -48,9 +48,16 @@ class HtmlGenerator implements HtmlGeneratorInterface
      */
     private function view(InvoiceInterface $invoice)
     {
+        $customerAddress = $invoice->getCustomer()->getCustomerAddress();
+
+        if (is_array($customerAddress)) {
+            $customerAddress = implode('<br/>', $customerAddress);
+        }
+
         $data = [
             'invoice' => $invoice,
             'customer' => $invoice->getCustomer(),
+            'customerAddress' => $customerAddress
         ];
 
         return $this->factory->make('invoices::invoice', $data);

@@ -1,6 +1,4 @@
-<?php
-
-namespace QuanticTelecom\Invoices\Tests\Helpers;
+<?php namespace QuanticTelecom\Invoices\Tests\Helpers;
 
 use Mockery as m;
 use Carbon\Carbon;
@@ -13,18 +11,18 @@ use QuanticTelecom\Invoices\AbstractInvoice as Invoice;
 trait InvoiceStubFactoryTrait
 {
     protected $invoiceData = [
-        'id' => '2015-03-04-0042',
+        'id' => '1955-11-0042',
         'createdAt' => '1955-11-5',
         'dueDate' => '2015-10-21',
         'excludingTaxTotalPrice' => 8086,
         'includingTaxTotalPrice' => 10120,
-        'vatAmount' => 2034,
+        'vatAmount' => 2034
     ];
 
     protected $customerData = [
         'id' => '1337',
         'name' => 'Sauron',
-        'address' => 'Black Gate of Mordor',
+        'address' => 'Black Gate of Mordor'
     ];
 
     protected $itemsData = [
@@ -35,7 +33,7 @@ trait InvoiceStubFactoryTrait
             'excludingTaxTotalPrice' => 8000,
             'includingTaxUnitPrice' => 10000,
             'includingTaxTotalPrice' => 10000,
-        ],
+        ]
     ];
 
     protected $groupsData = [
@@ -57,23 +55,25 @@ trait InvoiceStubFactoryTrait
                     'excludingTaxTotalPrice' => 70,
                     'includingTaxUnitPrice' => 100,
                     'includingTaxTotalPrice' => 100,
-                ],
-            ],
-        ],
+                ]
+            ]
+        ]
     ];
 
     protected $paymentData = [
         'name' => 'gold',
-        'date' => '2015-10-20',
+        'date' => '2015-10-20'
     ];
 
     /**
      * @param string $class concrete class to mock
-     *
+     * @param array $overrideData
      * @return Invoice mock
      */
-    protected function getNewInvoice($class = Invoice::class)
+    protected function getNewInvoice($class = Invoice::class, array $overrideData = [])
     {
+        $this->override($overrideData);
+
         $sauron = m::mock(CustomerInterface::class);
         $sauron->shouldReceive('getCustomerId')->andReturn($this->customerData['id']);
         $sauron->shouldReceive('getCustomerName')->andReturn($this->customerData['name']);
@@ -158,5 +158,30 @@ trait InvoiceStubFactoryTrait
             ->andReturn($payment);
 
         return $invoice;
+    }
+
+    protected function override(array $overrideData)
+    {
+        if (array_key_exists('customer', $overrideData)) {
+            $this->customerData = array_merge($this->customerData, $overrideData['customer']);
+            unset($overrideData['customer']);
+        }
+
+        if (array_key_exists('items', $overrideData)) {
+            $this->itemsData = array_merge($this->itemsData, $overrideData['items']);
+            unset($overrideData['items']);
+        }
+
+        if (array_key_exists('groups', $overrideData)) {
+            $this->groupsData = array_merge($this->groupsData, $overrideData['groups']);
+            unset($overrideData['groups']);
+        }
+
+        if (array_key_exists('payment', $overrideData)) {
+            $this->paymentData = array_merge($this->paymentData, $overrideData['payment']);
+            unset($overrideData['payment']);
+        }
+
+        $this->invoiceData = array_merge($this->invoiceData, $overrideData);
     }
 }

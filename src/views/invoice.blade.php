@@ -92,7 +92,7 @@
         </h1>
 
         <span style="font-family: Courier;">{{ $customer->getCustomerName() }}</span><br/>
-        <span style="font-family: Courier;">{{ $customer->getCustomerAddress() }}</span>
+        <span style="font-family: Courier;">{{ $customerAddress }}</span>
     </div>
 </div>
 
