@@ -1,8 +1,9 @@
-<?php namespace QuanticTelecom\Invoices\Tests;
+<?php
+
+namespace QuanticTelecom\Invoices\Tests;
 
 use PHPUnit_Framework_TestCase;
 use Mockery as m;
-use QuanticTelecom\Invoices\Contracts\ItemInterface;
 use QuanticTelecom\Invoices\GroupOfItems;
 use QuanticTelecom\Invoices\GroupsContainerTrait;
 

@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices\Tests;
+<?php
+
+namespace QuanticTelecom\Invoices\Tests;
 
 use PHPUnit_Framework_TestCase;
 use Mockery as m;

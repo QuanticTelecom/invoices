@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices;
+<?php
+
+namespace QuanticTelecom\Invoices;
 
 use Carbon\Carbon;
 use QuanticTelecom\Invoices\Contracts\CustomerInterface;
@@ -7,8 +9,7 @@ use QuanticTelecom\Invoices\Contracts\InvoiceInterface;
 use QuanticTelecom\Invoices\Contracts\PaymentInterface;
 
 /**
- * Class AbstractInvoice
- * @package QuanticTelecom\Invoices
+ * Class AbstractInvoice.
  */
 abstract class AbstractInvoice implements InvoiceInterface
 {
@@ -16,7 +17,7 @@ abstract class AbstractInvoice implements InvoiceInterface
     use GroupsContainerTrait;
 
     /**
-     * VAT rate in France
+     * VAT rate in France.
      *
      * @var float
      */
@@ -49,7 +50,7 @@ abstract class AbstractInvoice implements InvoiceInterface
 
     /**
      * @param IdGeneratorInterface $idGenerator
-     * @param CustomerInterface $customer
+     * @param CustomerInterface    $customer
      */
     public function __construct(IdGeneratorInterface $idGenerator, CustomerInterface $customer)
     {
@@ -124,6 +125,7 @@ abstract class AbstractInvoice implements InvoiceInterface
      * Set the due date of the invoice, if null, set the current date.
      *
      * @param Carbon $dueDate | null
+     *
      * @return self
      */
     public function setDueDate(Carbon $dueDate = null)
@@ -133,6 +135,7 @@ abstract class AbstractInvoice implements InvoiceInterface
         }
 
         $this->dueDate = $dueDate;
+
         return $this;
     }
 
@@ -150,6 +153,7 @@ abstract class AbstractInvoice implements InvoiceInterface
      * Set the creation date of the invoice, if null, set the current date.
      *
      * @param Carbon $createdAt | null
+     *
      * @return self
      */
     public function setCreatedAt(Carbon $createdAt = null)
@@ -159,6 +163,7 @@ abstract class AbstractInvoice implements InvoiceInterface
         }
 
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
@@ -176,11 +181,13 @@ abstract class AbstractInvoice implements InvoiceInterface
      * Set the payment instance for a paid invoice.
      *
      * @param PaymentInterface $payment
+     *
      * @return self
      */
     public function setPayment(PaymentInterface $payment)
     {
         $this->payment = $payment;
+
         return $this;
     }
 

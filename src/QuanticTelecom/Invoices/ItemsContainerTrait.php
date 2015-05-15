@@ -1,10 +1,11 @@
-<?php namespace QuanticTelecom\Invoices;
+<?php
+
+namespace QuanticTelecom\Invoices;
 
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
 
 /**
- * Class ItemsContainerTrait
- * @package QuanticTelecom\Invoices
+ * Class ItemsContainerTrait.
  */
 trait ItemsContainerTrait
 {
@@ -27,6 +28,7 @@ trait ItemsContainerTrait
      * Add an item in the container.
      *
      * @param ItemInterface $item
+     *
      * @return $this
      */
     public function addItem(ItemInterface $item)

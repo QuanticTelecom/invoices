@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices\Contracts;
+<?php
+
+namespace QuanticTelecom\Invoices\Contracts;
 
 interface ItemsContainerInterface
 {
@@ -13,6 +15,7 @@ interface ItemsContainerInterface
      * Add an item in the container.
      *
      * @param ItemInterface $item
+     *
      * @return $this
      */
     public function addItem(ItemInterface $item);

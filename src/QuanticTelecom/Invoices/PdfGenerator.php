@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices;
+<?php
+
+namespace QuanticTelecom\Invoices;
 
 use Illuminate\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
@@ -10,8 +12,7 @@ use RuntimeException;
 use Symfony\Component\Process\Process;
 
 /**
- * Class PdfGenerator
- * @package QuanticTelecom\Invoices
+ * Class PdfGenerator.
  */
 class PdfGenerator implements PdfGeneratorInterface
 {
@@ -31,8 +32,8 @@ class PdfGenerator implements PdfGeneratorInterface
     protected $files;
 
     /**
-     * @param Filesystem $files
-     * @param Factory $factory
+     * @param Filesystem             $files
+     * @param Factory                $factory
      * @param HtmlGeneratorInterface $htmlGenerator
      */
     public function __construct(
@@ -49,12 +50,14 @@ class PdfGenerator implements PdfGeneratorInterface
      * Get the PhantomJS process instance.
      *
      * @param string $viewPath
+     *
      * @return \Symfony\Component\Process\Process
      */
     private function getPhantomProcess($viewPath)
     {
         $system = $this->getSystem();
         $phantom = __DIR__.'/bin/'.$system.'/phantomjs'.$this->getExtension($system);
+
         return new Process($phantom.' invoice.js '.$viewPath, __DIR__);
     }
 
@@ -73,7 +76,7 @@ class PdfGenerator implements PdfGeneratorInterface
         } elseif (str_contains($uname, 'linux')) {
             return PHP_INT_SIZE === 4 ? 'linux-i686' : 'linux-x86_64';
         } else {
-            throw new RuntimeException("Unknown operating system.");
+            throw new RuntimeException('Unknown operating system.');
         }
     }
 
@@ -81,6 +84,7 @@ class PdfGenerator implements PdfGeneratorInterface
      * Get the binary extension for the system.
      *
      * @param string $system
+     *
      * @return string
      */
     private function getExtension($system)
@@ -92,7 +96,7 @@ class PdfGenerator implements PdfGeneratorInterface
      * Write the view HTML so PhantomJS can access it.
      *
      * @param InvoiceInterface $invoice
-     * @param string $storagePath
+     * @param string           $storagePath
      *
      * @return string
      */
@@ -101,7 +105,8 @@ class PdfGenerator implements PdfGeneratorInterface
         $html = $this->htmlGenerator->generate($invoice);
         $storagePath = $storagePath ?: storage_path().'/framework';
 
-        $this->files->put($path = $storagePath.'/'. $invoice->getId() .'.pdf', $html);
+        $this->files->put($path = $storagePath.'/'.$invoice->getId().'.pdf', $html);
+
         return $path;
     }
 
@@ -109,7 +114,7 @@ class PdfGenerator implements PdfGeneratorInterface
      * Get the rendered PDF of the invoice.
      *
      * @param InvoiceInterface $invoice
-     * @param string $storagePath | '/tmp'
+     * @param string           $storagePath | '/tmp'
      *
      * @return string PDF as a string
      *

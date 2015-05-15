@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices\Contracts;
+<?php
+
+namespace QuanticTelecom\Invoices\Contracts;
 
 use Carbon\Carbon;
 
@@ -50,6 +52,7 @@ interface InvoiceInterface extends GroupsContainerInterface, ItemsContainerInter
      * Set the due date of the invoice, if null, set the current date.
      *
      * @param Carbon $dueDate | null
+     *
      * @return self
      */
     public function setDueDate(Carbon $dueDate = null);
@@ -65,6 +68,7 @@ interface InvoiceInterface extends GroupsContainerInterface, ItemsContainerInter
      * Set the creation date of the invoice, if null, set the current date.
      *
      * @param Carbon $createdAt | null
+     *
      * @return self
      */
     public function setCreatedAt(Carbon $createdAt = null);
@@ -80,6 +84,7 @@ interface InvoiceInterface extends GroupsContainerInterface, ItemsContainerInter
      * Set the payment instance for a paid invoice.
      *
      * @param PaymentInterface $payment
+     *
      * @return self
      */
     public function setPayment(PaymentInterface $payment);

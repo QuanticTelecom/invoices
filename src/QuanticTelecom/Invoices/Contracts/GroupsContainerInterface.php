@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices\Contracts;
+<?php
+
+namespace QuanticTelecom\Invoices\Contracts;
 
 interface GroupsContainerInterface
 {
@@ -13,6 +15,7 @@ interface GroupsContainerInterface
      * Add a group in the container.
      *
      * @param GroupOfItemsInterface $group
+     *
      * @return $this
      */
     public function addGroup(GroupOfItemsInterface $group);
@@ -21,6 +24,7 @@ interface GroupsContainerInterface
      * Create a new group and add it in the container.
      *
      * @param string $name
+     *
      * @return GroupOfItemsInterface the new group created
      */
     public function createAndAddGroup($name);

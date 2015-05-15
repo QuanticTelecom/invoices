@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices\Tests;
+<?php
+
+namespace QuanticTelecom\Invoices\Tests;
 
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;

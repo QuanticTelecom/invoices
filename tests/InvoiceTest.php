@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices\Tests;
+<?php
+
+namespace QuanticTelecom\Invoices\Tests;
 
 use PHPUnit_Framework_TestCase;
 use Mockery as m;
@@ -24,14 +26,14 @@ class InvoiceTest extends PHPUnit_Framework_TestCase
     private $idGenerator;
 
     /**
-     * ID returned by the IdGeneratorInterface mock
+     * ID returned by the IdGeneratorInterface mock.
      *
      * @var string
      */
     private $newId;
 
     /**
-     * Initialize variables
+     * Initialize variables.
      */
     public function __construct()
     {
@@ -49,6 +51,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $class An implementation of the Invoice class
+     *
      * @return Invoice
      */
     private function getNewInvoice($class)

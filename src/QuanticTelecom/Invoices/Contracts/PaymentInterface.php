@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices\Contracts;
+<?php
+
+namespace QuanticTelecom\Invoices\Contracts;
 
 use Carbon\Carbon;
 

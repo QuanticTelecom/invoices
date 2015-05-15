@@ -1,10 +1,11 @@
-<?php namespace QuanticTelecom\Invoices;
+<?php
+
+namespace QuanticTelecom\Invoices;
 
 use QuanticTelecom\Invoices\Contracts\ItemInterface;
 
 /**
- * Class Item
- * @package QuanticTelecom\Invoices
+ * Class Item.
  */
 class Item implements ItemInterface
 {
@@ -60,7 +61,6 @@ class Item implements ItemInterface
         $this->excludingTaxUnitPrice = $excludingTaxUnitPrice;
         $this->excludingTaxTotalPrice = $excludingTaxTotalPrice;
     }
-
 
     /**
      * @return string

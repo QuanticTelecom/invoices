@@ -1,10 +1,11 @@
-<?php namespace QuanticTelecom\Invoices;
+<?php
+
+namespace QuanticTelecom\Invoices;
 
 use QuanticTelecom\Invoices\Contracts\GroupOfItemsInterface;
 
 /**
- * Class GroupOfItems
- * @package QuanticTelecom\Invoices
+ * Class GroupOfItems.
  */
 class GroupOfItems implements GroupOfItemsInterface
 {

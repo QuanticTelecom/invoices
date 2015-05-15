@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices\Tests;
+<?php
+
+namespace QuanticTelecom\Invoices\Tests;
 
 use PHPUnit_Framework_TestCase;
 use QuanticTelecom\Invoices\Item;
@@ -10,7 +12,7 @@ class ItemTest extends PHPUnit_Framework_TestCase
      */
     public function weGetAllInformationAboutAnItem()
     {
-        $name = "name";
+        $name = 'name';
         $quantity = 3;
         $includingTaxUnitPrice = 10;
         $excludingTaxUnitPrice = 9;

@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices;
+<?php
+
+namespace QuanticTelecom\Invoices;
 
 use Illuminate\View\Factory;
 use Illuminate\View\View;
@@ -6,8 +8,7 @@ use QuanticTelecom\Invoices\Contracts\HtmlGeneratorInterface;
 use QuanticTelecom\Invoices\Contracts\InvoiceInterface;
 
 /**
- * Class HtmlGenerator
- * @package QuanticTelecom\Invoices
+ * Class HtmlGenerator.
  */
 class HtmlGenerator implements HtmlGeneratorInterface
 {

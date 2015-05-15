@@ -1,9 +1,11 @@
-<?php namespace QuanticTelecom\Invoices\Contracts;
+<?php
+
+namespace QuanticTelecom\Invoices\Contracts;
 
 interface IdGeneratorInterface
 {
     /**
-     * Return a new ID to use for an invoice
+     * Return a new ID to use for an invoice.
      *
      * @return string
      */

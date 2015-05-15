@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices\Contracts;
+<?php
+
+namespace QuanticTelecom\Invoices\Contracts;
 
 interface CustomerInterface
 {
@@ -18,7 +20,7 @@ interface CustomerInterface
 
     /**
      * Get the address that should be shown on the customer's invoices.
-     * One line string address or multiple lines array of string address
+     * One line string address or multiple lines array of string address.
      *
      * @return string | array
      */

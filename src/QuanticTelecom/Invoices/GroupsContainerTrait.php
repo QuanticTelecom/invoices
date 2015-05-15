@@ -1,10 +1,11 @@
-<?php namespace QuanticTelecom\Invoices;
+<?php
+
+namespace QuanticTelecom\Invoices;
 
 use QuanticTelecom\Invoices\Contracts\GroupOfItemsInterface;
 
 /**
- * Class GroupsContainerTrait
- * @package QuanticTelecom\Invoices
+ * Class GroupsContainerTrait.
  */
 trait GroupsContainerTrait
 {
@@ -27,6 +28,7 @@ trait GroupsContainerTrait
      * Add a group in the container.
      *
      * @param GroupOfItemsInterface $group
+     *
      * @return $this
      */
     public function addGroup(GroupOfItemsInterface $group)
@@ -41,6 +43,7 @@ trait GroupsContainerTrait
      *
      * @param string $name
      * @param string $class GroupOfItemsInterface implementation
+     *
      * @return GroupOfItemsInterface the new group created
      */
     public function createAndAddGroup($name, $class = GroupOfItems::class)

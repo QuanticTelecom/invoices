@@ -1,14 +1,14 @@
-<?php namespace QuanticTelecom\Invoices;
+<?php
+
+namespace QuanticTelecom\Invoices;
 
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class InvoicesServiceProvider
- * @package QuanticTelecom\Invoices
+ * Class InvoicesServiceProvider.
  */
 class InvoicesServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -18,8 +18,6 @@ class InvoicesServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application events.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -28,8 +26,6 @@ class InvoicesServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
