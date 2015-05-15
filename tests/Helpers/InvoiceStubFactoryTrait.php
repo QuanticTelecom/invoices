@@ -1,4 +1,6 @@
-<?php namespace QuanticTelecom\Invoices\Tests\Helpers;
+<?php
+
+namespace QuanticTelecom\Invoices\Tests\Helpers;
 
 use Mockery as m;
 use Carbon\Carbon;
@@ -16,13 +18,13 @@ trait InvoiceStubFactoryTrait
         'dueDate' => '2015-10-21',
         'excludingTaxTotalPrice' => 8086,
         'includingTaxTotalPrice' => 10120,
-        'vatAmount' => 2034
+        'vatAmount' => 2034,
     ];
 
     protected $customerData = [
         'id' => '1337',
         'name' => 'Sauron',
-        'address' => 'Black Gate of Mordor'
+        'address' => 'Black Gate of Mordor',
     ];
 
     protected $itemsData = [
@@ -33,7 +35,7 @@ trait InvoiceStubFactoryTrait
             'excludingTaxTotalPrice' => 8000,
             'includingTaxUnitPrice' => 10000,
             'includingTaxTotalPrice' => 10000,
-        ]
+        ],
     ];
 
     protected $groupsData = [
@@ -55,19 +57,20 @@ trait InvoiceStubFactoryTrait
                     'excludingTaxTotalPrice' => 70,
                     'includingTaxUnitPrice' => 100,
                     'includingTaxTotalPrice' => 100,
-                ]
-            ]
-        ]
+                ],
+            ],
+        ],
     ];
 
     protected $paymentData = [
         'name' => 'gold',
-        'date' => '2015-10-20'
+        'date' => '2015-10-20',
     ];
 
     /**
-     * @param string $class concrete class to mock
-     * @param array $overrideData
+     * @param string $class        concrete class to mock
+     * @param array  $overrideData
+     *
      * @return Invoice mock
      */
     protected function getNewInvoice($class = Invoice::class, array $overrideData = [])

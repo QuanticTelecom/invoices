@@ -57,7 +57,7 @@ class HtmlGenerator implements HtmlGeneratorInterface
         $data = [
             'invoice' => $invoice,
             'customer' => $invoice->getCustomer(),
-            'customerAddress' => $customerAddress
+            'customerAddress' => $customerAddress,
         ];
 
         return $this->factory->make('invoices::invoice', $data);
