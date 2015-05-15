@@ -7,12 +7,14 @@ namespace QuanticTelecom\Invoices;
  */
 class ExcludingTaxInvoice extends AbstractInvoice
 {
+    use ExcludingPriceToIncludingPriceTrait;
+
     /**
      * @return float
      */
     public function getIncludingTaxTotalPrice()
     {
-        return round($this->getExcludingTaxTotalPrice() * (1 + AbstractInvoice::$vatRate), 2);
+        return $this->excludingPriceToIncludingPrice($this->getExcludingTaxTotalPrice());
     }
 
     /**
