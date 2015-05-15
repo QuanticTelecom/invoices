@@ -3,16 +3,11 @@
 interface PdfGeneratorInterface
 {
     /**
-     * Return a new PdfGenerator instance.
+     * Get the rendered PDF of the invoice.
      *
      * @param InvoiceInterface $invoice
-     */
-    public function __construct(InvoiceInterface $invoice);
-
-    /**
-     * Get the rendered PDF of the invoice.
      *
      * @return string PDF as a string
      */
-    public function generate();
+    public function generate(InvoiceInterface $invoice);
 }

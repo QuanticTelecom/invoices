@@ -54,7 +54,7 @@ class HtmlGeneratorTest extends PHPUnit_Framework_TestCase
      */
     private function getNewHtmlGenerator()
     {
-        return new HtmlGenerator($this->getNewInvoice(), $this->getNewViewFactory());
+        return new HtmlGenerator($this->getNewViewFactory());
     }
 
     /**
@@ -64,7 +64,7 @@ class HtmlGeneratorTest extends PHPUnit_Framework_TestCase
     {
         $htmlGenerator = $this->getNewHtmlGenerator();
 
-        $html = $htmlGenerator->generate();
+        $html = $htmlGenerator->generate($this->getNewInvoice());
 
         $this->assertContains($this->invoiceData['id'], $html);
 

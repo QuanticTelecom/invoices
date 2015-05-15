@@ -12,11 +12,6 @@ use QuanticTelecom\Invoices\Contracts\InvoiceInterface;
 class HtmlGenerator implements HtmlGeneratorInterface
 {
     /**
-     * @var InvoiceInterface
-     */
-    private $invoice;
-
-    /**
      * View factory instance.
      *
      * @var Factory
@@ -24,40 +19,37 @@ class HtmlGenerator implements HtmlGeneratorInterface
     private $factory;
 
     /**
-     * Return a new HtmlGenerator instance.
-     *
-     * @param InvoiceInterface $invoice
      * @param Factory $factory
      */
-    public function __construct(InvoiceInterface $invoice, Factory $factory = null)
+    public function __construct(Factory $factory)
     {
-        $this->invoice = $invoice;
-
-        if (!is_null($factory)) {
-            $this->factory = $factory;
-        }
+        $this->factory = $factory;
     }
 
     /**
      * Get the rendered HTML content of the invoice.
      *
-     * @return string
+     * @param InvoiceInterface $invoice
+     *
+     * @return string HTML
      */
-    public function generate()
+    public function generate(InvoiceInterface $invoice)
     {
-        return $this->view()->render();
+        return $this->view($invoice)->render();
     }
 
     /**
      * Get the View instance for the invoice.
      *
+     * @param InvoiceInterface $invoice
+     *
      * @return View
      */
-    private function view()
+    private function view(InvoiceInterface $invoice)
     {
         $data = [
-            'invoice' => $this->invoice,
-            'customer' => $this->invoice->getCustomer(),
+            'invoice' => $invoice,
+            'customer' => $invoice->getCustomer(),
         ];
 
         return $this->factory->make('invoices::invoice', $data);

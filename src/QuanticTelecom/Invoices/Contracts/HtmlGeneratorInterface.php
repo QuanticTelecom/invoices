@@ -3,16 +3,11 @@
 interface HtmlGeneratorInterface
 {
     /**
-     * Return a new HtmlGenerator instance.
+     * Get the rendered HTML content of the invoice.
      *
      * @param InvoiceInterface $invoice
-     */
-    public function __construct(InvoiceInterface $invoice);
-
-    /**
-     * Get the rendered HTML content of the invoice.
      *
      * @return string HTML
      */
-    public function generate();
+    public function generate(InvoiceInterface $invoice);
 }

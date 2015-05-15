@@ -1,5 +1,6 @@
 <?php namespace QuanticTelecom\Invoices;
 
+use Illuminate\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\Factory;
 use QuanticTelecom\Invoices\Contracts\HtmlGeneratorInterface;
@@ -15,42 +16,33 @@ use Symfony\Component\Process\Process;
 class PdfGenerator implements PdfGeneratorInterface
 {
     /**
-     * @var InvoiceInterface
+     * @var Factory
      */
-    private $invoice;
+    protected $factory;
+
+    /**
+     * @var HtmlGeneratorInterface
+     */
+    private $htmlGenerator;
 
     /**
      * @var Filesystem
      */
-    private $files;
+    protected $files;
 
     /**
-     * Return a new PdfGenerator instance.
-     *
-     * @param InvoiceInterface $invoice
      * @param Filesystem $files
      * @param Factory $factory
      * @param HtmlGeneratorInterface $htmlGenerator
      */
     public function __construct(
-        InvoiceInterface $invoice,
-        Filesystem $files = null,
-        Factory $factory = null,
-        HtmlGeneratorInterface $htmlGenerator = null
+        Filesystem $files,
+        Factory $factory,
+        HtmlGeneratorInterface $htmlGenerator
     ) {
-        $this->invoice = $invoice;
-
-        if (is_null($files)) {
-            $this->files = new Filesystem();
-        } else {
-            $this->files = $files;
-        }
-
-        if (is_null($htmlGenerator)) {
-            $this->htmlGenerator = new HtmlGenerator($invoice, $factory);
-        } else {
-            $this->htmlGenerator = $htmlGenerator;
-        }
+        $this->files = $files;
+        $this->factory = $factory;
+        $this->htmlGenerator = $htmlGenerator;
     }
 
     /**
@@ -99,30 +91,36 @@ class PdfGenerator implements PdfGeneratorInterface
     /**
      * Write the view HTML so PhantomJS can access it.
      *
+     * @param InvoiceInterface $invoice
      * @param string $storagePath
+     *
      * @return string
      */
-    private function writeViewForImaging($storagePath)
+    private function writeViewForImaging(InvoiceInterface $invoice, $storagePath)
     {
-        $html = $this->htmlGenerator->generate();
+        $html = $this->htmlGenerator->generate($invoice);
         $storagePath = $storagePath ?: storage_path().'/framework';
 
-        $this->files->put($path = $storagePath.'/'. $this->invoice->getId() .'.pdf', $html);
+        $this->files->put($path = $storagePath.'/'. $invoice->getId() .'.pdf', $html);
         return $path;
     }
 
     /**
      * Get the rendered PDF of the invoice.
      *
+     * @param InvoiceInterface $invoice
      * @param string $storagePath | '/tmp'
+     *
      * @return string PDF as a string
+     *
+     * @throws FileNotFoundException
      */
-    public function generate($storagePath = '/tmp')
+    public function generate(InvoiceInterface $invoice, $storagePath = '/tmp')
     {
         // To properly capture a screenshot of the invoice view, we will pipe out to
         // PhantomJS, which is a headless browser. We'll then capture a PNG image
         // of the webpage, which will produce a very faithful copy of the page.
-        $viewPath = $this->writeViewForImaging($storagePath);
+        $viewPath = $this->writeViewForImaging($invoice, $storagePath);
         $this->getPhantomProcess($viewPath)
             ->setTimeout(10)->run();
 
