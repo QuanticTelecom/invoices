@@ -12,39 +12,40 @@ class Item implements ItemInterface
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var int
      */
-    private $quantity;
+    protected $quantity;
 
     /**
      * @var float
      */
-    private $includingTaxUnitPrice;
+    protected $includingTaxUnitPrice;
 
     /**
      * @var float
      */
-    private $includingTaxTotalPrice;
-
-    /**
-     * @var
-     */
-    private $excludingTaxUnitPrice;
+    protected $includingTaxTotalPrice;
 
     /**
      * @var float
      */
-    private $excludingTaxTotalPrice;
+    protected $excludingTaxUnitPrice;
 
     /**
-     * @param $name
-     * @param $quantity
-     * @param $includingTaxUnitPrice
-     * @param $includingTaxTotalPrice
-     * @param $excludingTaxTotalPrice
+     * @var float
+     */
+    protected $excludingTaxTotalPrice;
+
+    /**
+     * @param string $name
+     * @param int    $quantity
+     * @param float  $includingTaxUnitPrice
+     * @param float  $includingTaxTotalPrice
+     * @param float  $excludingTaxUnitPrice
+     * @param float  $excludingTaxTotalPrice
      */
     public function __construct(
         $name,
@@ -63,6 +64,8 @@ class Item implements ItemInterface
     }
 
     /**
+     * Get the item name.
+     *
      * @return string
      */
     public function getItemName()
@@ -71,6 +74,8 @@ class Item implements ItemInterface
     }
 
     /**
+     * Get the item quantity.
+     *
      * @return int
      */
     public function getItemQuantity()
@@ -79,6 +84,8 @@ class Item implements ItemInterface
     }
 
     /**
+     * Get the unit price of the item with taxes.
+     *
      * @return float
      */
     public function getItemIncludingTaxUnitPrice()
@@ -87,6 +94,8 @@ class Item implements ItemInterface
     }
 
     /**
+     * Get the total price of the item with taxes.
+     *
      * @return float
      */
     public function getItemIncludingTaxTotalPrice()
@@ -95,6 +104,8 @@ class Item implements ItemInterface
     }
 
     /**
+     * Get the unit price of the item without taxes.
+     *
      * @return float
      */
     public function getItemExcludingTaxUnitPrice()
@@ -103,6 +114,8 @@ class Item implements ItemInterface
     }
 
     /**
+     * Get the total price of the item without taxes.
+     *
      * @return float
      */
     public function getItemExcludingTaxTotalPrice()
