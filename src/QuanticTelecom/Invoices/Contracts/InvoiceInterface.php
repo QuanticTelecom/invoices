@@ -49,29 +49,11 @@ interface InvoiceInterface extends GroupsContainerInterface, ItemsContainerInter
     public function getDueDate();
 
     /**
-     * Set the due date of the invoice, if null, set the current date.
-     *
-     * @param Carbon $dueDate | null
-     *
-     * @return self
-     */
-    public function setDueDate(Carbon $dueDate = null);
-
-    /**
      * Get the creation date of the invoice.
      *
      * @return Carbon
      */
     public function getCreatedAt();
-
-    /**
-     * Set the creation date of the invoice, if null, set the current date.
-     *
-     * @param Carbon $createdAt | null
-     *
-     * @return self
-     */
-    public function setCreatedAt(Carbon $createdAt = null);
 
     /**
      * Get the payment instance of the invoice if paid or null.

@@ -50,11 +50,20 @@ abstract class AbstractInvoice implements InvoiceInterface
 
     /**
      * @param IdGeneratorInterface $idGenerator
-     * @param CustomerInterface    $customer
+     * @param CustomerInterface $customer
+     * @param Carbon $dueDate
+     * @param Carbon $createdAt
      */
-    public function __construct(IdGeneratorInterface $idGenerator, CustomerInterface $customer)
+    public function __construct(
+        IdGeneratorInterface $idGenerator,
+        CustomerInterface $customer,
+        Carbon $dueDate = null,
+        Carbon $createdAt = null
+    )
     {
         $this->setId($idGenerator->generateNewId());
+        $this->setCreatedAt($createdAt);
+        $this->setDueDate($dueDate);
 
         $this->customer = $customer;
     }
@@ -126,17 +135,15 @@ abstract class AbstractInvoice implements InvoiceInterface
      *
      * @param Carbon $dueDate | null
      *
-     * @return self
+     * @return void
      */
-    public function setDueDate(Carbon $dueDate = null)
+    private function setDueDate(Carbon $dueDate = null)
     {
         if (is_null($dueDate)) {
             $dueDate = Carbon::now();
         }
 
         $this->dueDate = $dueDate;
-
-        return $this;
     }
 
     /**
@@ -154,17 +161,15 @@ abstract class AbstractInvoice implements InvoiceInterface
      *
      * @param Carbon $createdAt | null
      *
-     * @return self
+     * @return void
      */
-    public function setCreatedAt(Carbon $createdAt = null)
+    private function setCreatedAt(Carbon $createdAt = null)
     {
         if (is_null($createdAt)) {
             $createdAt = Carbon::now();
         }
 
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     /**

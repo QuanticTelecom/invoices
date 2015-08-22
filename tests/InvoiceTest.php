@@ -147,12 +147,12 @@ class InvoiceTest extends PHPUnit_Framework_TestCase
      */
     public function itReturnsTheCreationDateAfterSetting()
     {
-        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
         $backToTheFuture = Carbon::createFromDate(1955, 11, 5);
-
-        $this->assertNull($includingTaxInvoice->getCreatedAt());
-
-        $includingTaxInvoice->setCreatedAt($backToTheFuture);
+        $includingTaxInvoice = new IncludingTaxInvoice(
+            $this->idGenerator,
+            $this->customer,
+            null,
+            $backToTheFuture);
 
         $this->assertEquals($includingTaxInvoice->getCreatedAt(), $backToTheFuture);
     }
@@ -162,12 +162,12 @@ class InvoiceTest extends PHPUnit_Framework_TestCase
      */
     public function itReturnsTheDueDateAfterSetting()
     {
-        $includingTaxInvoice = $this->getNewInvoice(IncludingTaxInvoice::class);
         $backToTheFuture = Carbon::createFromDate(1955, 11, 5);
-
-        $this->assertNull($includingTaxInvoice->getCreatedAt());
-
-        $includingTaxInvoice->setDueDate($backToTheFuture);
+        $includingTaxInvoice = new IncludingTaxInvoice(
+            $this->idGenerator,
+            $this->customer,
+            $backToTheFuture
+        );
 
         $this->assertEquals($includingTaxInvoice->getDueDate(), $backToTheFuture);
     }
