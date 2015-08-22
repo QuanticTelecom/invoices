@@ -59,8 +59,7 @@ abstract class AbstractInvoice implements InvoiceInterface
         CustomerInterface $customer,
         Carbon $dueDate = null,
         Carbon $createdAt = null
-    )
-    {
+    ) {
         $this->setId($idGenerator->generateNewId());
         $this->setCreatedAt($createdAt);
         $this->setDueDate($dueDate);

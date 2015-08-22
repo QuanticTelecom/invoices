@@ -152,7 +152,8 @@ class InvoiceTest extends PHPUnit_Framework_TestCase
             $this->idGenerator,
             $this->customer,
             null,
-            $backToTheFuture);
+            $backToTheFuture
+        );
 
         $this->assertEquals($includingTaxInvoice->getCreatedAt(), $backToTheFuture);
     }
