@@ -2,6 +2,8 @@
 
 namespace QuanticTelecom\Invoices;
 
+use QuanticTelecom\Invoices\Contracts\GroupsAndItemsContainerInterface;
+
 /**
  * Class ExcludingTaxInvoice.
  */
@@ -22,12 +24,30 @@ class ExcludingTaxInvoice extends AbstractInvoice
      */
     public function getExcludingTaxTotalPrice()
     {
-        $excludingTaxTotalPrice = 0;
+        return $this->getItemsAndGroupsPrice($this);
+    }
 
-        foreach ($this->getItems() as $item) {
-            $excludingTaxTotalPrice += $item->getItemExcludingTaxTotalPrice();
+
+    /**
+     * Compute recursively the price for all the items and all the groups.
+     *
+     * @param GroupsAndItemsContainerInterface $groupsAndItemsContainer
+     *
+     * @return float
+     */
+    private function getItemsAndGroupsPrice(
+        GroupsAndItemsContainerInterface $groupsAndItemsContainer
+    ) {
+        $price = 0;
+
+        foreach ($groupsAndItemsContainer->getItems() as $item) {
+            $price += $item->getItemExcludingTaxTotalPrice();
         }
 
-        return $excludingTaxTotalPrice;
+        foreach ($groupsAndItemsContainer->getGroups() as $groupOfItems) {
+            $price += $this->getItemsAndGroupsPrice($groupOfItems);
+        }
+
+        return $price;
     }
 }

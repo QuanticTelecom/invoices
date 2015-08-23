@@ -4,7 +4,7 @@ namespace QuanticTelecom\Invoices\Contracts;
 
 use Carbon\Carbon;
 
-interface InvoiceInterface extends GroupsContainerInterface, ItemsContainerInterface
+interface InvoiceInterface extends GroupsAndItemsContainerInterface
 {
     /**
      * Get the ID of the invoice.

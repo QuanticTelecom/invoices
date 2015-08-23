@@ -2,7 +2,7 @@
 
 namespace QuanticTelecom\Invoices\Contracts;
 
-interface GroupOfItemsInterface extends GroupsContainerInterface, ItemsContainerInterface
+interface GroupOfItemsInterface extends GroupsAndItemsContainerInterface
 {
     /**
      * Get the name of the group.
