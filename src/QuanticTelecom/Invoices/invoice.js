@@ -5,7 +5,7 @@ var fs = require('fs'),
 
 // Read the HTML view into the page...
 page.content = fs.read(args[1]);
-page.zoomFactor = 0.74;
+page.zoomFactor = 0.71;
 page.viewportSize = {width: 600, height: 1200};
 page.paperSize = {format: 'A4', orientation: 'portrait', margin: '0.5cm'};
 

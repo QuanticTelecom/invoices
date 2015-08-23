@@ -66,12 +66,12 @@
     ">
         <h1>Facture</h1>
 
-        <strong>Numéro :</strong> <span style="font-family: Courier;">{{ $invoice->getId() }}</span><br>
-        <strong>Date d'émission :</strong> <span style="font-family: Courier;">{{ $invoice->getCreatedAt()->format('d/m/Y') }}</span><br>
-        <strong>Date d'échéance :</strong> <span style="font-family: Courier;">{{ $invoice->getDueDate()->format('d/m/Y') }}</span><br>
+        <strong>Numéro :</strong> <span style="font-family: Courier; font-size: 130%;">{{ $invoice->getId() }}</span><br>
+        <strong>Date d'émission :</strong> <span style="font-family: Courier; font-size: 130%;">{{ $invoice->getCreatedAt()->format('d/m/Y') }}</span><br>
+        <strong>Date d'échéance :</strong> <span style="font-family: Courier; font-size: 130%;">{{ $invoice->getDueDate()->format('d/m/Y') }}</span><br>
         <br>
         <strong>Code client :</strong><br>
-        <span style="font-family: Courier;">{{ $customer->getCustomerId() }}</span><br>
+        <span style="font-family: Courier; font-size: 130%;">{{ $customer->getCustomerId() }}</span><br>
         <br>
         <strong>Condition de règlement :</strong><br>
         Paiement de la facture via les moyens de paiement proposés sur le site web de Quantic Telecom.
@@ -91,8 +91,8 @@
             Coordonnées du client
         </h1>
 
-        <span style="font-family: Courier;">{{ $customer->getCustomerName() }}</span><br/>
-        <span style="font-family: Courier;">{{ $customerAddress }}</span>
+        <span style="font-family: Courier; font-size: 130%;">{{ $customer->getCustomerName() }}</span><br/>
+        <span style="font-family: Courier; font-size: 130%;">{{ $customerAddress }}</span>
     </div>
 </div>
 
@@ -125,7 +125,7 @@
             <td class="large">Montant € TTC</td>
         </tr>
 
-        <tr style="font-family: Courier;">
+        <tr style="font-family: Courier; font-size: 130%;">
             <td colspan="6"><br></td>
         </tr>
 
@@ -152,15 +152,15 @@
         <table>
             <tr>
                 <td><strong>Total HT</strong></td>
-                <td><span style="font-family: Courier; padding-left: 10px;">{{ $invoice->getExcludingTaxTotalPrice() }} <small>EUR</small></span></td>
+                <td><span style="font-family: Courier; font-size: 130%; padding-left: 10px;">{{ $invoice->getExcludingTaxTotalPrice() }} <small>EUR</small></span></td>
             </tr>
             <tr>
                 <td><strong>Montant TVA</strong></td>
-                <td><span style="font-family: Courier; padding-left: 10px;">{{ $invoice->getVatAmount() }} <small>EUR</small></span></td>
+                <td><span style="font-family: Courier; font-size: 130%; padding-left: 10px;">{{ $invoice->getVatAmount() }} <small>EUR</small></span></td>
             </tr>
             <tr>
                 <td><strong>Total € TTC</strong></td>
-                <td><span style="font-family: Courier; padding-left: 10px;">{{ $invoice->getIncludingTaxTotalPrice() }} <small>EUR</small></span></td>
+                <td><span style="font-family: Courier; font-size: 130%; padding-left: 10px;">{{ $invoice->getIncludingTaxTotalPrice() }} <small>EUR</small></span></td>
             </tr>
         </table>
     </div>
@@ -184,7 +184,7 @@
     margin-bottom: 60px;
 ">
     @if ($invoice->isPaid())
-        <strong>Cette facture a été acquitée le </strong><span style="font-family: Courier;">{{ $invoice->getPayment()->getPaymentDate()->format('d/m/Y') }}</span><strong> par </strong><span style="font-family: Courier;">{{ $invoice->getPayment()->getPaymentName() }}</span><strong>.</strong>
+        <strong>Cette facture a été acquitée le </strong><span style="font-family: Courier; font-size: 130%;">{{ $invoice->getPayment()->getPaymentDate()->format('d/m/Y') }}</span><strong> par </strong><span style="font-family: Courier; font-size: 130%;">{{ $invoice->getPayment()->getPaymentName() }}</span><strong>.</strong>
     @endif
 </div>
 
