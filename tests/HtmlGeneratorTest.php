@@ -114,7 +114,8 @@ class HtmlGeneratorTest extends PHPUnit_Framework_TestCase
 
         $html = $htmlGenerator->generate($invoice);
 
-        $this->assertContains(implode('<br/>', $addressArray), $html);
+        $this->assertContains($addressArray[0] . '<br/>', $html);
+        $this->assertContains($addressArray[1] . '<br/>', $html);
 
         $this->filesystem->put('/tmp/invoice.html', $html);
     }

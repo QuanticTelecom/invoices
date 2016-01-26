@@ -92,7 +92,11 @@
         </h1>
 
         <span style="font-family: Courier; font-size: 130%;">{{ $customer->getCustomerName() }}</span><br/>
-        <span style="font-family: Courier; font-size: 130%;">{{ $customerAddress }}</span>
+        <span style="font-family: Courier; font-size: 130%;">
+            @foreach($customerAddressLines as $customerAddressLine)
+                {{ $customerAddressLine }}<br/>
+            @endforeach
+        </span>
     </div>
 </div>
 
